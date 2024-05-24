@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  web:
+    build:
+      dockerfile: ./Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+    ports:
+      - 3001:3001
