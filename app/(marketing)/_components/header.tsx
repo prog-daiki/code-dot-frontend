@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 export const Header = () => {
   return (
     <>
-      <header className="container h-20 w-full border-b-2 border-slate-200">
-        <div className="flex h-full items-center justify-between">
+      <header className="h-20 w-full border-b-2 border-slate-200">
+        <div className="container flex h-full items-center justify-between">
           <h1 className="text-2xl font-bold">
             Code <span className="text-blue-600">.</span>
           </h1>
