@@ -11,11 +11,11 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
+import { isAdmin } from "@/lib/isAdmin";
 
-export const Header = () => {
+export const Header = async () => {
   const { userId } = auth();
-  const isAdmin: boolean =
-    userId === process.env.ADMIN_USER_ID!;
+  const admin = await isAdmin(userId);
 
   return (
     <>
@@ -27,7 +27,7 @@ export const Header = () => {
             </h1>
           </Link>
           <div className="flex items-center gap-x-8">
-            {isAdmin && (
+            {admin && (
               <Link href="/admin/courses">
                 <Button variant="ghost">
                   管理者モード
