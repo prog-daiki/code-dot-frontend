@@ -1,5 +1,13 @@
 "use client";
 
+import { useAuth } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,13 +27,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 
 const formSchema = z.object({
   title: z
@@ -80,10 +81,10 @@ const CoursesPage = () => {
   };
 
   return (
-    <div className="flex flex-1 container py-6">
+    <div className="container flex flex-1 py-6">
       <div>
         <Dialog>
-          <DialogTrigger className="bg-black text-white rounded-md px-4 py-2">
+          <DialogTrigger className="rounded-md bg-black px-4 py-2 text-white">
             講座を作成
           </DialogTrigger>
           <DialogContent>
@@ -97,8 +98,8 @@ const CoursesPage = () => {
             </DialogHeader>
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6"
+                onSubmit={form.handleSubmit(onSubmit)}
               >
                 <FormField
                   control={form.control}
@@ -119,15 +120,15 @@ const CoursesPage = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flax items-center gap-x-2">
+                <div className="flex items-center gap-x-2">
                   <Link href="/">
                     <Button type="button" variant="ghost">
                       キャンセル
                     </Button>
                   </Link>
                   <Button
-                    type="submit"
                     disabled={isSubmitting}
+                    type="submit"
                   >
                     作成する
                   </Button>

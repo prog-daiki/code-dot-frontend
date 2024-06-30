@@ -7,9 +7,7 @@ export default function MarketingLayout({
 }: Props) {
   return (
     <>
-      <main className="flex flex-1 items-center justify-center">
-        {children}
-      </main>
+      <main>{children}</main>
     </>
   );
 }
