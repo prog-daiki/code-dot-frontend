@@ -90,7 +90,7 @@ const CoursesPage = () => {
           <DialogContent>
             <DialogHeader className="space-y-6">
               <DialogTitle className="font-normal text-gray-500">
-                新しい講座に名前をつけましょう
+                新しい講座を作成しよう
               </DialogTitle>
               <DialogDescription>
                 講座の名前は後で変更できます。気軽に決めましょう。
