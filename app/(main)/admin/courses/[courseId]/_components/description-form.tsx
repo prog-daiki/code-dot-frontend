@@ -8,7 +8,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Course } from "@/types/course";
 import { useAuth } from "@clerk/nextjs";
@@ -26,19 +26,19 @@ type Props = {
 };
 
 const formSchema = z.object({
-  title: z
+  description: z
     .string()
     .min(1, {
-      message: "タイトルは必須です",
+      message: "詳細文は必須です。",
     })
-    .max(100, {
-      message: "タイトルは100文字以内です",
+    .max(1000, {
+      message: "詳細文は1000文字以内で入力してください。",
     }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export const TitleForm = ({
+export const DescriptionForm = ({
   initialData,
   courseId,
 }: Props) => {
@@ -50,16 +50,18 @@ export const TitleForm = ({
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      description: initialData.description || "",
+    },
   });
 
-  const { isSubmitting, isValid } = form.formState;
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: FormData) => {
     try {
       const token = await getToken();
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/title`,
+        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/description`,
         values,
         {
           headers: {
@@ -68,14 +70,14 @@ export const TitleForm = ({
         },
       );
       toast({
-        title: "講座タイトルを更新しました",
+        title: "講座詳細を更新しました",
       });
       toggleEdit();
       router.refresh();
     } catch {
       toast({
+        title: "エラーが発生しました",
         variant: "destructive",
-        title: "講座タイトルの更新に失敗しました",
       });
     }
   };
@@ -84,7 +86,7 @@ export const TitleForm = ({
     <div className="mt-6 border shadow-md rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         <h3 className="border-b border-sky-500">
-          講座タイトル
+          講座詳細
         </h3>
         <Button
           onClick={toggleEdit}
@@ -102,7 +104,9 @@ export const TitleForm = ({
         </Button>
       </div>
       {!isEditing && (
-        <p className="text-sm mt-2">{initialData.title}</p>
+        <p className="text-sm mt-2">
+          {initialData.description}
+        </p>
       )}
       {isEditing && (
         <Form {...form}>
@@ -112,13 +116,13 @@ export const TitleForm = ({
           >
             <FormField
               control={form.control}
-              name="title"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <Textarea
                       disabled={isSubmitting}
-                      placeholder="Javascriptチュートリアル"
+                      placeholder="Javascriptの非同期処理をマスターしよう！"
                       {...field}
                     />
                   </FormControl>
@@ -127,10 +131,7 @@ export const TitleForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button
-                type="submit"
-                disabled={!isValid || isSubmitting}
-              >
+              <Button type="submit" disabled={isSubmitting}>
                 保存する
               </Button>
             </div>

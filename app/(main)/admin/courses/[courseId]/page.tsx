@@ -3,6 +3,7 @@ import { getCourse } from "@/data/course/get-course";
 import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import { TitleForm } from "./_components/title-form";
+import { DescriptionForm } from "./_components/description-form";
 
 const CoursePage = async ({
   params,
@@ -43,6 +44,10 @@ const CoursePage = async ({
             <h2 className="text-xl">講座のカスタマイズ</h2>
           </div>
           <TitleForm
+            initialData={course}
+            courseId={params.courseId}
+          />
+          <DescriptionForm
             initialData={course}
             courseId={params.courseId}
           />
