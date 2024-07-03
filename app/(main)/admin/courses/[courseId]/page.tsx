@@ -2,6 +2,7 @@ import { IconBadge } from "@/app/_components/icon-badge";
 import { getCourse } from "@/data/course/get-course";
 import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
+import { TitleForm } from "./_components/title-form";
 
 const CoursePage = async ({
   params,
@@ -41,6 +42,10 @@ const CoursePage = async ({
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">講座のカスタマイズ</h2>
           </div>
+          <TitleForm
+            initialData={course}
+            courseId={params.courseId}
+          />
         </div>
       </div>
     </div>
