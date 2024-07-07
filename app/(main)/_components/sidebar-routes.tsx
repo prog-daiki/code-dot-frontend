@@ -1,6 +1,12 @@
 "use client";
 
-import { BarChart, Home, Layout, List } from "lucide-react";
+import {
+  BarChart,
+  Book,
+  Home,
+  Layout,
+  List,
+} from "lucide-react";
 
 import { SidebarItem } from "./sidebar-item";
 import { usePathname } from "next/navigation";
@@ -25,8 +31,13 @@ const adminRoutes = [
     href: "/admin/courses",
   },
   {
+    icon: Book,
+    label: "カテゴリー管理",
+    href: "/admin/categories",
+  },
+  {
     icon: BarChart,
-    label: "管理画面",
+    label: "売上管理",
     href: "/admin/analytics",
   },
 ];
