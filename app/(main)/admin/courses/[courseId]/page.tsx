@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { TitleForm } from "./_components/title-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
+import { CategoryForm } from "./_components/category-form";
+import { getCategories } from "@/data/category/get-categories";
 
 const CoursePage = async ({
   params,
@@ -15,6 +17,7 @@ const CoursePage = async ({
   if (!course) {
     redirect("/admin/courses");
   }
+  const categories = await getCategories();
 
   const requiredFields = [
     course.title,
@@ -55,6 +58,14 @@ const CoursePage = async ({
           <ImageForm
             initialData={course}
             courseId={params.courseId}
+          />
+          <CategoryForm
+            initialData={course}
+            courseId={params.courseId}
+            options={categories.map((category) => ({
+              label: category.name,
+              value: category.id,
+            }))}
           />
         </div>
       </div>
