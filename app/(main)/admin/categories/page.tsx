@@ -54,32 +54,39 @@ const CategoriesPage = () => {
 
   const { isSubmitting } = form.formState;
 
-  const onSubmit = async (
-    values: z.infer<typeof formSchema>,
-  ) => {
-    try {
-      const token = await getToken();
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/categories`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/categories`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      router.refresh();
-      toast({
-        title: "カテゴリーを作成しました",
-      });
-      setIsOpen(false);
-    } catch {
+        );
+        router.refresh();
+        toast({
+          title: "カテゴリーを作成しました",
+        });
+        setIsOpen(false);
+      } catch (error) {
+        console.error("エラー:", error);
+        toast({
+          variant: "destructive",
+          title: "カテゴリーの作成に失敗しました",
+        });
+        setIsOpen(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
         variant: "destructive",
-        title: "カテゴリーの作成に失敗しました",
+        title: "予期せぬエラーが発生しました",
       });
-      setIsOpen(false);
-    }
+    });
   };
 
   return (
@@ -101,7 +108,10 @@ const CategoriesPage = () => {
             <Form {...form}>
               <form
                 className="space-y-6"
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onSubmit(form.getValues());
+                }}
               >
                 <FormField
                   control={form.control}
