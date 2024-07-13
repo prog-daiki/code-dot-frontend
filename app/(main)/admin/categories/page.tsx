@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,7 +28,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
 
 const formSchema = z.object({
   name: z
@@ -85,7 +85,7 @@ const CategoriesPage = () => {
   return (
     <div className="container flex flex-1 py-6">
       <div>
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog onOpenChange={setIsOpen} open={isOpen}>
           <DialogTrigger className="rounded-md bg-black px-4 py-2 text-white">
             カテゴリーを作成
           </DialogTrigger>

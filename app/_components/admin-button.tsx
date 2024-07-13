@@ -1,21 +1,21 @@
 "use client";
 
+import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
-import { LogOut } from "lucide-react";
 
 export const AdminButton = () => {
   const pathname = usePathname();
 
-  const isTeacherPage = pathname.startsWith("/admin");
+  const isAdminPage = pathname.startsWith("/admin");
   return (
     <>
-      {isTeacherPage ? (
+      {isAdminPage ? (
         <Link href="/">
-          <Button variant="ghost" size="sm">
-            <LogOut className="size-4 mr-2" />
+          <Button size="sm" variant="ghost">
+            <LogOut className="mr-2 size-4" />
             ホーム
           </Button>
         </Link>

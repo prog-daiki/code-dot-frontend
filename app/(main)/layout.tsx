@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
-import { Sidebar } from "./_components/sidebar";
 import { redirect } from "next/navigation";
+
+import { Sidebar } from "./_components/sidebar";
 
 type Props = {
   children: React.ReactNode;

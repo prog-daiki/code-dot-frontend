@@ -1,5 +1,14 @@
 "use client";
 
+import { useAuth } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { Pencil } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import {
@@ -10,16 +19,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
+
 import { cn } from "@/lib/utils";
 import { Course } from "@/types/course";
-import { useAuth } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 type Props = {
   initialData: Course;
@@ -85,8 +87,8 @@ export const CategoryForm = ({
   );
 
   return (
-    <div className="mt-6 border shadow-md rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
+    <div className="mt-6 rounded-md border p-4 shadow-md">
+      <div className="flex items-center justify-between font-medium">
         <h3 className="border-b border-sky-500">
           カテゴリー
         </h3>
@@ -95,7 +97,7 @@ export const CategoryForm = ({
             <>取り消す</>
           ) : (
             <>
-              <Pencil className="size-4 mr-2" />
+              <Pencil className="mr-2 size-4" />
               編集する
             </>
           )}
@@ -115,8 +117,8 @@ export const CategoryForm = ({
       {isEditing && (
         <Form {...form}>
           <form
+            className="mt-4 space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
           >
             <FormField
               control={form.control}
@@ -134,7 +136,7 @@ export const CategoryForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button type="submit" disabled={isSubmitting}>
+              <Button disabled={isSubmitting} type="submit">
                 保存する
               </Button>
             </div>
