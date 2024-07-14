@@ -7,9 +7,9 @@ import {
   Layout,
   List,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
-import { usePathname } from "next/navigation";
 
 const guestRoutes = [
   {

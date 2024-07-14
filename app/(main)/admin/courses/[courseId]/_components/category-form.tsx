@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Combobox } from "@/components/ui/combobox";
 import {
   Form,
   FormControl,
@@ -17,32 +18,29 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 
+import { cn } from "@/lib/utils";
 import { Course } from "@/types/course";
 
 type Props = {
   initialData: Course;
   courseId: string;
+  options: { label: string; value: string }[];
 };
 
 const formSchema = z.object({
-  description: z
-    .string()
-    .min(1, {
-      message: "詳細文は必須です。",
-    })
-    .max(1000, {
-      message: "詳細文は1000文字以内で入力してください。",
-    }),
+  categoryId: z.string().min(1, {
+    message: "カテゴリーは必須です",
+  }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export const DescriptionForm = ({
+export const CategoryForm = ({
   initialData,
   courseId,
+  options,
 }: Props) => {
   const { getToken } = useAuth();
   const { toast } = useToast();
@@ -53,7 +51,7 @@ export const DescriptionForm = ({
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialData.description || "",
+      categoryId: initialData?.categoryId || "",
     },
   });
 
@@ -63,7 +61,7 @@ export const DescriptionForm = ({
     try {
       const token = await getToken();
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/description`,
+        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/category`,
         values,
         {
           headers: {
@@ -72,29 +70,29 @@ export const DescriptionForm = ({
         },
       );
       toast({
-        title: "講座詳細を更新しました",
+        title: "カテゴリーを更新しました",
       });
       toggleEdit();
       router.refresh();
     } catch {
       toast({
-        title: "エラーが発生しました",
         variant: "destructive",
+        title: "カテゴリーの更新に失敗しました",
       });
     }
   };
+
+  const selectedOption = options.find(
+    (option) => option.value === initialData.categoryId,
+  );
 
   return (
     <div className="mt-6 rounded-md border p-4 shadow-md">
       <div className="flex items-center justify-between font-medium">
         <h3 className="border-b border-sky-500">
-          講座詳細
+          カテゴリー
         </h3>
-        <Button
-          className="px-4"
-          onClick={toggleEdit}
-          variant="ghost"
-        >
+        <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
           ) : (
@@ -106,8 +104,14 @@ export const DescriptionForm = ({
         </Button>
       </div>
       {!isEditing && (
-        <p className="mt-2 text-sm">
-          {initialData.description}
+        <p
+          className={cn(
+            "text-sm mt-2",
+            !initialData.categoryId && "text-slate-500",
+          )}
+        >
+          {selectedOption?.label ||
+            "カテゴリーが未登録です"}
         </p>
       )}
       {isEditing && (
@@ -118,13 +122,12 @@ export const DescriptionForm = ({
           >
             <FormField
               control={form.control}
-              name="description"
+              name="categoryId"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea
-                      disabled={isSubmitting}
-                      placeholder="Javascriptの非同期処理をマスターしよう！"
+                    <Combobox
+                      options={options}
                       {...field}
                     />
                   </FormControl>
