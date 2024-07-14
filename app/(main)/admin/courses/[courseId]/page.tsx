@@ -1,4 +1,8 @@
-import { LayoutDashboard } from "lucide-react";
+import {
+  CircleDollarSign,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 
 import { IconBadge } from "@/app/_components/icon-badge";
@@ -9,7 +13,7 @@ import { CategoryForm } from "./_components/category-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
 import { TitleForm } from "./_components/title-form";
-
+import { PriceForm } from "./_components/price-form";
 
 const CoursePage = async ({
   params,
@@ -70,6 +74,19 @@ const CoursePage = async ({
               value: category.id,
             }))}
           />
+          <PriceForm
+            initialData={course}
+            courseId={course.id}
+          />
+        </div>
+        <div className="space-y-6">
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={ListChecks} />
+              <h2 className="text-xl">チャプター</h2>
+            </div>
+            <div>TODO: Chapters</div>
+          </div>
         </div>
       </div>
     </div>
