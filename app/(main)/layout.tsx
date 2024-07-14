@@ -12,6 +12,7 @@ const MainLayout = ({ children }: Props) => {
   if (!userId) {
     redirect("/");
   }
+
   return (
     <div className="flex">
       <div className="z-50 hidden h-full w-60 flex-col md:flex">
