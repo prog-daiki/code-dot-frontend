@@ -13,11 +13,7 @@ import { PriceForm } from "./_components/price-form";
 import { ChaptersForm } from "./_components/chapter-form";
 import { getChapters } from "@/data/chapter/get-chapters";
 
-const CoursePage = async ({
-  params,
-}: {
-  params: { courseId: string };
-}) => {
+const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const course = await getCourse(params.courseId);
   if (!course) {
     redirect("/admin/courses");
@@ -33,19 +29,16 @@ const CoursePage = async ({
     course.categoryId,
   ];
   const totalFields = requiredFields.length;
-  const completedFields =
-    requiredFields.filter(Boolean).length;
+  const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `${completedFields}/${totalFields}`;
 
   return (
-    <div className="flex flex-1 flex-col pl-4 pt-4 pb-12">
-      <div>
-        <div className="flex flex-col gap-y-2">
-          <h1 className="text-2xl font-medium">講座設定</h1>
-          <span className="text-sm text-slate-700">
-            入力済みの必須項目 {completionText}
-          </span>
-        </div>
+    <div>
+      <div className="flex flex-col gap-y-2">
+        <h1 className="text-2xl font-medium">講座設定</h1>
+        <span className="text-sm text-slate-700">
+          入力済みの必須項目 {completionText}
+        </span>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         <div>
@@ -53,18 +46,9 @@ const CoursePage = async ({
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">講座のカスタマイズ</h2>
           </div>
-          <TitleForm
-            courseId={params.courseId}
-            initialData={course}
-          />
-          <DescriptionForm
-            courseId={params.courseId}
-            initialData={course}
-          />
-          <ImageForm
-            courseId={params.courseId}
-            initialData={course}
-          />
+          <TitleForm courseId={params.courseId} initialData={course} />
+          <DescriptionForm courseId={params.courseId} initialData={course} />
+          <ImageForm courseId={params.courseId} initialData={course} />
           <CategoryForm
             courseId={params.courseId}
             initialData={course}
@@ -73,10 +57,7 @@ const CoursePage = async ({
               value: category.id,
             }))}
           />
-          <PriceForm
-            initialData={course}
-            courseId={course.id}
-          />
+          <PriceForm initialData={course} courseId={course.id} />
         </div>
         <div className="space-y-6">
           <div>
@@ -84,10 +65,7 @@ const CoursePage = async ({
               <IconBadge icon={ListChecks} />
               <h2 className="text-xl">チャプター</h2>
             </div>
-            <ChaptersForm
-              initialData={chapters}
-              courseId={course.id}
-            />
+            <ChaptersForm initialData={chapters} courseId={course.id} />
           </div>
         </div>
       </div>

@@ -35,10 +35,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export const ChaptersForm = ({
-  initialData,
-  courseId,
-}: Props) => {
+export const ChaptersForm = ({ initialData, courseId }: Props) => {
   const { getToken } = useAuth();
   const { toast } = useToast();
   const [isCreating, setIsCreating] = useState(false);
@@ -85,9 +82,7 @@ export const ChaptersForm = ({
     }
   };
 
-  const onReorder = async (
-    updateData: { id: string; position: number }[],
-  ) => {
+  const onReorder = async (updateData: { id: string; position: number }[]) => {
     try {
       setIsUpdating(true);
       const token = await getToken();
@@ -117,9 +112,7 @@ export const ChaptersForm = ({
   };
 
   const onEdit = (id: string) => {
-    router.push(
-      `/teacher/courses/${courseId}/chapters/${id}/edit`,
-    );
+    router.push(`/admin/courses/${courseId}/chapters/${id}`);
   };
 
   return (
@@ -164,10 +157,7 @@ export const ChaptersForm = ({
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              disabled={!isValid || isSubmitting}
-            >
+            <Button type="submit" disabled={!isValid || isSubmitting}>
               登録
             </Button>
           </form>

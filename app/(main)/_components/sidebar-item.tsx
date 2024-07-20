@@ -4,6 +4,7 @@ import { LucideIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   icon: LucideIcon;
@@ -11,11 +12,7 @@ type Props = {
   href: string;
 };
 
-export const SidebarItem = ({
-  icon: Icon,
-  label,
-  href,
-}: Props) => {
+export const SidebarItem = ({ icon: Icon, label, href }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -29,27 +26,22 @@ export const SidebarItem = ({
   };
 
   return (
-    <>
-      <button
-        className={cn(
-          "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
-          isActive &&
-            "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700",
-        )}
-        onClick={onClick}
-        type="button"
-      >
-        <div className="flex items-center gap-x-2 py-4">
-          <Icon
-            className={cn(
-              "text-slate-500",
-              isActive && "text-sky-700",
-            )}
-            size={22}
-          />
-          {label}
-        </div>
-      </button>
-    </>
+    <Button
+      variant="sidebar"
+      className={cn(
+        isActive &&
+          "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700",
+      )}
+      onClick={onClick}
+      size="lg"
+    >
+      <div className="flex items-center gap-x-2 py-4">
+        <Icon
+          className={cn("text-slate-500", isActive && "text-sky-700")}
+          size={22}
+        />
+        {label}
+      </div>
+    </Button>
   );
 };

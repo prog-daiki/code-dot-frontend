@@ -52,9 +52,7 @@ const CoursesPage = () => {
 
   const { isSubmitting } = form.formState;
 
-  const onSubmit = async (
-    values: z.infer<typeof formSchema>,
-  ) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const token = await getToken();
       const response = await axios.post(
@@ -66,9 +64,7 @@ const CoursesPage = () => {
           },
         },
       );
-      router.push(
-        `/admin/courses/${response.data.data.id}`,
-      );
+      router.push(`/admin/courses/${response.data.data.id}`);
       toast({
         title: "講座を作成しました",
       });
@@ -81,63 +77,55 @@ const CoursesPage = () => {
   };
 
   return (
-    <div className="container flex flex-1 py-6">
-      <div>
-        <Dialog>
-          <DialogTrigger className="rounded-md bg-black px-4 py-2 text-white">
-            講座を作成
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader className="space-y-6">
-              <DialogTitle className="font-normal text-gray-500">
-                新しい講座を作成しよう
-              </DialogTitle>
-              <DialogDescription>
-                講座の名前は後で変更できます。気軽に決めましょう。
-              </DialogDescription>
-            </DialogHeader>
-            <Form {...form}>
-              <form
-                className="space-y-6"
-                onSubmit={form.handleSubmit(onSubmit)}
-              >
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-muted-foreground">
-                        講座タイトル
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isSubmitting}
-                          placeholder="Next.js入門講座"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="flex items-center gap-x-2">
-                  <Link href="/">
-                    <Button type="button" variant="ghost">
-                      キャンセル
-                    </Button>
-                  </Link>
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                  >
-                    作成する
+    <div>
+      <Dialog>
+        <DialogTrigger className="rounded-md bg-black px-4 py-2 text-white">
+          講座を作成
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader className="space-y-6">
+            <DialogTitle className="font-normal text-gray-500">
+              新しい講座を作成しよう
+            </DialogTitle>
+            <DialogDescription>
+              講座の名前は後で変更できます。気軽に決めましょう。
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-muted-foreground">
+                      講座タイトル
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="Next.js入門講座"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center gap-x-2">
+                <Link href="/">
+                  <Button type="button" variant="ghost">
+                    キャンセル
                   </Button>
-                </div>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
-      </div>
+                </Link>
+                <Button disabled={isSubmitting} type="submit">
+                  作成する
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
