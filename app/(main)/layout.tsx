@@ -14,11 +14,11 @@ const MainLayout = ({ children }: Props) => {
   }
 
   return (
-    <div className="flex">
+    <div className="flex gap-x-8">
       <div className="z-50 hidden h-full w-60 flex-col md:flex">
         <Sidebar />
       </div>
-      <main className="w-full">{children}</main>
+      <main className="w-full pb-12 h-full">{children}</main>
     </div>
   );
 };

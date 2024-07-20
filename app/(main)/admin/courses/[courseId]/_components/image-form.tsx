@@ -2,11 +2,7 @@
 
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
-import {
-  ImageIcon,
-  Pencil,
-  PlusCircle,
-} from "lucide-react";
+import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,16 +21,13 @@ type Props = {
 
 const formSchema = z.object({
   imageUrl: z.string().min(1, {
-    message: "Image is required",
+    message: "画像は必須です",
   }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export const ImageForm = ({
-  initialData,
-  courseId,
-}: Props) => {
+export const ImageForm = ({ initialData, courseId }: Props) => {
   const { getToken } = useAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
@@ -69,9 +62,7 @@ export const ImageForm = ({
   return (
     <div className="mt-6 rounded-md border p-4 shadow-md">
       <div className="mb-4 flex items-center justify-between font-medium">
-        <h3 className="border-b border-sky-500">
-          講座サムネイル
-        </h3>
+        <h3 className="border-b border-sky-500">講座サムネイル</h3>
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && <>取り消す</>}
           {!isEditing && !initialData.imageUrl && (
@@ -114,7 +105,7 @@ export const ImageForm = ({
             }}
           />
           <div className="mt-4 text-xs text-muted-foreground">
-            16:9の比率が推奨されています
+            16:9の比率が推奨です
           </div>
         </div>
       )}
