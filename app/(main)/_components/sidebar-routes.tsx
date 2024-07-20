@@ -32,7 +32,7 @@ const adminRoutes = [
   },
   {
     icon: Book,
-    label: "カテゴリー管理",
+    label: "カテゴリー",
     href: "/admin/categories",
   },
   {

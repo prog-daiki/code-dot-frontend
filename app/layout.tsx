@@ -28,7 +28,9 @@ export default async function RootLayout({
         <body className={inter.className}>
           <main className="flex min-h-screen flex-col">
             <Header />
-            <div className="flex-1">{children}</div>
+            <div className="flex-1 container">
+              {children}
+            </div>
             <Footer />
             <Toaster />
           </main>

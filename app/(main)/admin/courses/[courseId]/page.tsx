@@ -1,4 +1,4 @@
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, ListChecks } from "lucide-react";
 import { redirect } from "next/navigation";
 
 import { IconBadge } from "@/app/_components/icon-badge";
@@ -9,7 +9,9 @@ import { CategoryForm } from "./_components/category-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
 import { TitleForm } from "./_components/title-form";
-
+import { PriceForm } from "./_components/price-form";
+import { ChaptersForm } from "./_components/chapter-form";
+import { getChapters } from "@/data/chapter/get-chapters";
 
 const CoursePage = async ({
   params,
@@ -20,6 +22,7 @@ const CoursePage = async ({
   if (!course) {
     redirect("/admin/courses");
   }
+  const chapters = await getChapters(params.courseId);
   const categories = await getCategories();
 
   const requiredFields = [
@@ -35,7 +38,7 @@ const CoursePage = async ({
   const completionText = `${completedFields}/${totalFields}`;
 
   return (
-    <div className="flex flex-1 flex-col p-4">
+    <div className="flex flex-1 flex-col pl-4 pt-4 pb-12">
       <div>
         <div className="flex flex-col gap-y-2">
           <h1 className="text-2xl font-medium">講座設定</h1>
@@ -70,6 +73,22 @@ const CoursePage = async ({
               value: category.id,
             }))}
           />
+          <PriceForm
+            initialData={course}
+            courseId={course.id}
+          />
+        </div>
+        <div className="space-y-6">
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={ListChecks} />
+              <h2 className="text-xl">チャプター</h2>
+            </div>
+            <ChaptersForm
+              initialData={chapters}
+              courseId={course.id}
+            />
+          </div>
         </div>
       </div>
     </div>
