@@ -53,7 +53,7 @@ export const ChapterTitleForm = ({
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: { title: initialData.title },
   });
 
   const { isSubmitting, isValid } = form.formState;

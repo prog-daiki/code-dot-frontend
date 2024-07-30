@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { ChapterTitleForm } from "./_components/title-form";
 import { ChapterDescriptionForm } from "./_components/description-form";
 import { ChapterAccessForm } from "./_components/chapter-access-form";
+import { ChapterVideoForm } from "./_components/chapter-video-form";
 
 const ChapterIdPage = async ({
   params,
@@ -19,7 +20,9 @@ const ChapterIdPage = async ({
   }
 
   // チャプターを取得する
-  const chapter = await getChapter(params.courseId, params.chapterId);
+  const data = await getChapter(params.courseId, params.chapterId);
+  const chapter = data.chapter;
+  const muxData = data.mux_data;
   if (!chapter) {
     return redirect("/admin/courses");
   }
@@ -87,6 +90,12 @@ const ChapterIdPage = async ({
             <IconBadge icon={Video} />
             <h2 className="text-xl">動画を追加</h2>
           </div>
+          <ChapterVideoForm
+            initialChapterData={chapter}
+            initialMuxData={muxData}
+            courseId={params.courseId}
+            chapterId={params.chapterId}
+          />
         </div>
       </div>
     </div>

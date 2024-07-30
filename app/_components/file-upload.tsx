@@ -10,10 +10,7 @@ type Props = {
   endpoint: keyof OurFileRouter;
 };
 
-export const FileUpload = ({
-  onChange,
-  endpoint,
-}: Props) => {
+export const FileUpload = ({ onChange, endpoint }: Props) => {
   const { toast } = useToast();
   return (
     <UploadDropzone

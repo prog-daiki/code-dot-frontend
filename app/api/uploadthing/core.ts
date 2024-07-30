@@ -1,8 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import {
-  createUploadthing,
-  type FileRouter,
-} from "uploadthing/next";
+import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 const f = createUploadthing();
 
@@ -19,13 +16,7 @@ export const ourFileRouter = {
   })
     .middleware(handleAuth)
     .onUploadComplete(() => {}),
-  courseAttachment: f([
-    "text",
-    "image",
-    "video",
-    "audio",
-    "pdf",
-  ])
+  courseAttachment: f(["text", "image", "video", "audio", "pdf"])
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
   chapterVideo: f({
