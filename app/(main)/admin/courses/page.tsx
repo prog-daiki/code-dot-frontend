@@ -64,11 +64,13 @@ const CoursesPage = () => {
           },
         },
       );
-      router.push(`/admin/courses/${response.data.data.id}`);
+      console.log(response.data.id);
+      router.push(`/admin/courses/${response.data.id}`);
       toast({
         title: "講座を作成しました",
       });
-    } catch {
+    } catch (error) {
+      console.error(error);
       toast({
         variant: "destructive",
         title: "講座の作成に失敗しました",

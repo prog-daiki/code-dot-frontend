@@ -12,6 +12,8 @@ import { TitleForm } from "./_components/title-form";
 import { PriceForm } from "./_components/price-form";
 import { ChaptersForm } from "./_components/chapter-form";
 import { getChapters } from "@/data/chapter/get-chapters";
+import { Actions } from "./_components/actions";
+import { Banner } from "@/app/_components/banner";
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const course = await getCourse(params.courseId);
@@ -31,45 +33,56 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `${completedFields}/${totalFields}`;
+  const isComplete = requiredFields.every(Boolean);
 
   return (
-    <div>
-      <div className="flex flex-col gap-y-2">
-        <h1 className="text-2xl font-medium">講座設定</h1>
-        <span className="text-sm text-slate-700">
-          入力済みの必須項目 {completionText}
-        </span>
-      </div>
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div>
-          <div className="flex items-center gap-x-2">
-            <IconBadge icon={LayoutDashboard} />
-            <h2 className="text-xl">講座のカスタマイズ</h2>
+    <>
+      <div className="space-y-4">
+        {!course.publishFlag && <Banner label="この講座は非公開です" />}
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-y-2">
+            <h1 className="text-2xl font-medium">講座設定</h1>
+            <span className="text-sm text-slate-700">
+              入力済みの必須項目 {completionText}
+            </span>
           </div>
-          <TitleForm courseId={params.courseId} initialData={course} />
-          <DescriptionForm courseId={params.courseId} initialData={course} />
-          <ImageForm courseId={params.courseId} initialData={course} />
-          <CategoryForm
+          <Actions
+            disabled={!isComplete}
             courseId={params.courseId}
-            initialData={course}
-            options={categories.map((category) => ({
-              label: category.name,
-              value: category.id,
-            }))}
+            isPublished={course.publishFlag!}
           />
-          <PriceForm initialData={course} courseId={course.id} />
         </div>
-        <div className="space-y-6">
+        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <div className="flex items-center gap-x-2">
-              <IconBadge icon={ListChecks} />
-              <h2 className="text-xl">チャプター</h2>
+              <IconBadge icon={LayoutDashboard} />
+              <h2 className="text-xl">講座のカスタマイズ</h2>
             </div>
-            <ChaptersForm initialData={chapters} courseId={course.id} />
+            <TitleForm courseId={params.courseId} initialData={course} />
+            <DescriptionForm courseId={params.courseId} initialData={course} />
+            <ImageForm courseId={params.courseId} initialData={course} />
+            <CategoryForm
+              courseId={params.courseId}
+              initialData={course}
+              options={categories.map((category) => ({
+                label: category.name,
+                value: category.id,
+              }))}
+            />
+            <PriceForm initialData={course} courseId={course.id} />
+          </div>
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={ListChecks} />
+                <h2 className="text-xl">チャプター</h2>
+              </div>
+              <ChaptersForm initialData={chapters} courseId={course.id} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
