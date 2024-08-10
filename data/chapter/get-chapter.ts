@@ -16,7 +16,6 @@ export async function getChapter(
 ): Promise<ChapterWithMuxData> {
   try {
     const token = await auth().getToken();
-
     const response = await axios.get<ChapterWithMuxData>(
       `${API_URL}/courses/${courseId}/chapters/${chapterId}`,
       {
@@ -25,7 +24,6 @@ export async function getChapter(
         },
       },
     );
-
     return response.data;
   } catch (error) {
     console.error("チャプターの取得に失敗しました");
