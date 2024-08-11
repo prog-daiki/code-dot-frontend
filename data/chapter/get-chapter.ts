@@ -10,6 +10,12 @@ type ChapterWithMuxData = {
   mux_data: MuxData | null;
 };
 
+/**
+ * チャプターを取得する
+ * @param courseId 講座ID
+ * @param chapterId チャプターID
+ * @returns チャプター
+ */
 export async function getChapter(
   courseId: string,
   chapterId: string,
