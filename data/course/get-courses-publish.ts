@@ -12,6 +12,12 @@ export type PublishCourseWithChapterWithCategory = {
   category: Category;
 };
 
+/**
+ * 公開講座の一覧を取得する
+ * @param title タイトル
+ * @param categoryId カテゴリーID
+ * @returns 公開講座の一覧
+ */
 export async function getCoursesPublish(
   title?: string,
   categoryId?: string,
@@ -30,7 +36,6 @@ export async function getCoursesPublish(
         },
       },
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("公開講座の一覧取得に失敗しました:", error);
