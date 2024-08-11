@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
 import { Course } from "@/types/course";
-import { formatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format-price";
 
 type Props = {
   initialData: Course;
@@ -41,10 +41,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export const PriceForm = ({
-  initialData,
-  courseId,
-}: Props) => {
+export const PriceForm = ({ initialData, courseId }: Props) => {
   const { getToken } = useAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
@@ -87,11 +84,7 @@ export const PriceForm = ({
     <div className="mt-6 rounded-md border p-4 shadow-md">
       <div className="flex items-center justify-between font-medium">
         <h3 className="border-b border-sky-500">価格</h3>
-        <Button
-          className="px-4"
-          onClick={toggleEdit}
-          variant="ghost"
-        >
+        <Button className="px-4" onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
           ) : (

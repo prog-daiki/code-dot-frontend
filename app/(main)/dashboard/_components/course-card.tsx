@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
-import { formatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format-price";
 import { IconBadge } from "@/app/_components/icon-badge";
 
 interface Props {
