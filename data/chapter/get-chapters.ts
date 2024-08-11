@@ -4,6 +4,11 @@ import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+/**
+ * チャプターの一覧を取得する
+ * @param courseId 講座ID
+ * @returns チャプターの一覧
+ */
 export async function getChapters(courseId: string): Promise<Chapter[]> {
   try {
     const token = await auth().getToken();
