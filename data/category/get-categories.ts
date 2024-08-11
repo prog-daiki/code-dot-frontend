@@ -4,6 +4,10 @@ import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+/**
+ * カテゴリーの一覧を取得する
+ * @returns カテゴリーの一覧
+ */
 export async function getCategories(): Promise<Category[]> {
   try {
     const token = await auth().getToken();
