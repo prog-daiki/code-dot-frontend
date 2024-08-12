@@ -38,7 +38,7 @@ export const SearchInput = () => {
       <Input
         onChange={(e) => setValue(e.target.value)}
         value={value}
-        className="w-full md:w-[600px] pl-9 rounded-md focus-visible:ring-slate-200"
+        className="w-full pl-9 rounded-md focus-visible:ring-slate-200"
         placeholder="講座を検索する"
       />
     </div>

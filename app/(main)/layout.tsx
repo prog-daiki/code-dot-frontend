@@ -15,7 +15,7 @@ const MainLayout = ({ children }: Props) => {
 
   return (
     <div className="flex gap-x-8">
-      <div className="z-50 hidden h-full w-60 flex-col md:flex">
+      <div className="z-50 hidden h-full w-60 flex-col xl:flex">
         <Sidebar />
       </div>
       <main className="w-full pb-12 h-full">{children}</main>

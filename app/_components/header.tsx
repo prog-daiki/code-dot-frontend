@@ -15,7 +15,7 @@ export const Header = async () => {
     <header className="h-20 w-full border-b-2 border-slate-200">
       <div className="container flex h-full items-center justify-between">
         {userId && <MobileMenu />}
-        <div className="hidden md:block">
+        <div className="hidden xl:block">
           <HeaderLogo />
         </div>
         <div className="flex items-center gap-x-8">
