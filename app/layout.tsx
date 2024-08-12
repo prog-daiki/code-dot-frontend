@@ -5,11 +5,6 @@ import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
-
-import { Footer } from "./_components/footer";
-import { Header } from "./_components/header";
-import { ConfettiProvider } from "@/providers/confetti-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,15 +21,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider localization={jaJP}>
       <html lang="ja">
-        <body className={inter.className}>
-          <ConfettiProvider />
-          <main className="flex min-h-screen flex-col">
-            <Header />
-            <div className="flex-1 container py-8">{children}</div>
-            <Footer />
-            <Toaster />
-          </main>
-        </body>
+        <body className={inter.className}>{children}</body>
       </html>
     </ClerkProvider>
   );
