@@ -118,7 +118,11 @@ export const CreateCourse = () => {
                   キャンセル
                 </Button>
               </Link>
-              <Button disabled={isSubmitting} type="submit">
+              <Button
+                disabled={isSubmitting}
+                type="submit"
+                className="bg-sky-700 hover:bg-sky-900"
+              >
                 作成する
               </Button>
             </div>
