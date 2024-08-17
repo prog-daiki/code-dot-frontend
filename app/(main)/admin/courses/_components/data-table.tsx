@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
           <CreateCourse />
         </div>
       </div>
-      <div className="rounded-md border px-4">
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -118,23 +118,28 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            前へ
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            次へ
-          </Button>
+        <div className="flex items-center justify-end py-4 px-4 space-x-4">
+          <div className="text-sm text-muted-foreground">
+            {table.getFilteredRowModel().rows.length} 件の講座
+          </div>
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              前へ
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              次へ
+            </Button>
+          </div>
         </div>
       </div>
     </div>
