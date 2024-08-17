@@ -23,8 +23,6 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { PlusCircle } from "lucide-react";
 import { CreateCourse } from "./create-course";
 
 interface DataTableProps<TData, TValue> {
@@ -57,19 +55,21 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
-      <div className="flex items-center py-4 justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <Input
-          placeholder="Filter courses..."
+          placeholder="講座名で検索する"
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <CreateCourse />
+        <div className="hidden md:block">
+          <CreateCourse />
+        </div>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border px-4">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -112,7 +112,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  講座が見つかりませんでした
                 </TableCell>
               </TableRow>
             )}
@@ -125,7 +125,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            前へ
           </Button>
           <Button
             variant="outline"
@@ -133,7 +133,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            次へ
           </Button>
         </div>
       </div>

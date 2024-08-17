@@ -80,7 +80,7 @@ export const CreateCourse = () => {
 
   return (
     <Dialog>
-      <DialogTrigger className="rounded-md bg-black px-4 py-2 text-white flex items-center">
+      <DialogTrigger className="rounded-md bg-sky-700 hover:bg-sky-900 transition px-4 py-2 text-white flex items-center">
         <PlusCircle className="size-4 mr-2" />
         講座を作成
       </DialogTrigger>
@@ -89,9 +89,7 @@ export const CreateCourse = () => {
           <DialogTitle className="font-normal text-gray-500">
             新しい講座を作成しよう
           </DialogTitle>
-          <DialogDescription>
-            講座の名前は後で変更できます。気軽に決めましょう。
-          </DialogDescription>
+          <DialogDescription>講座の名前は後で変更が可能です</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
