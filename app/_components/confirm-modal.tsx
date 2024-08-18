@@ -24,9 +24,9 @@ export const ConfirmModal = ({ children, onConfirm }: Props) => {
         <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>確認してください。</AlertDialogTitle>
+            <AlertDialogTitle>注意してください</AlertDialogTitle>
             <AlertDialogDescription>
-              この操作は元に戻せません。
+              この操作は元に戻せません。本当によろしいですか？
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
