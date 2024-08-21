@@ -1,7 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-
 import { isAdmin } from "@/lib/isAdmin";
-
 import { AdminButton } from "./admin-button";
 import { AuthButtons } from "./auth-buttons";
 import { HeaderLogo } from "./header-logo";
@@ -14,7 +12,7 @@ export const Header = async () => {
   return (
     <header className="h-20 w-full border-b-2 border-slate-200">
       <div className="container flex h-full items-center justify-between">
-        {userId && <MobileMenu />}
+        <MobileMenu />
         <div className="hidden xl:block">
           <HeaderLogo />
         </div>
