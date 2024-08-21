@@ -5,14 +5,13 @@ import axios from "axios";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 /**
- * 講座を取得する
- * @param courseId 講座ID
- * @returns 講座
+ * 講座の一覧を取得する
+ * @returns 講座の一覧
  */
-export async function getCourse(courseId: string): Promise<Course> {
+export async function getCourses(): Promise<Course[]> {
   try {
     const token = await auth().getToken();
-    const response = await axios.get<Course>(`${API_URL}/courses/${courseId}`, {
+    const response = await axios.get<Course[]>(`${API_URL}/courses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;

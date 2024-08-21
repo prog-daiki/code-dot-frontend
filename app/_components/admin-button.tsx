@@ -13,7 +13,7 @@ export const AdminButton = () => {
   return (
     <>
       {isAdminPage ? (
-        <Link href="/">
+        <Link href="/home">
           <Button size="sm" variant="ghost">
             <LogOut className="mr-2 size-4" />
             ホーム

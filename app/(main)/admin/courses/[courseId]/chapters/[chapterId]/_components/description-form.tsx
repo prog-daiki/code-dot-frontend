@@ -8,8 +8,9 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { Chapter } from "@/types/chapter";
 import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -20,27 +21,25 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type Props = {
-  initialData: {
-    title: string;
-  };
+  initialData: Chapter;
   courseId: string;
   chapterId: string;
 };
 
 const formSchema = z.object({
-  title: z
+  description: z
     .string()
     .min(1, {
       message: "タイトルは必須です",
     })
-    .max(100, {
+    .max(1000, {
       message: "タイトルは100文字以内です",
     }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export const ChapterTitleForm = ({
+export const ChapterDescriptionForm = ({
   initialData,
   courseId,
   chapterId,
@@ -53,7 +52,7 @@ export const ChapterTitleForm = ({
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: { title: initialData.title },
+    defaultValues: initialData,
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -62,7 +61,7 @@ export const ChapterTitleForm = ({
     try {
       const token = await getToken();
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/${chapterId}/title`,
+        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/${chapterId}/description`,
         values,
         {
           headers: {
@@ -71,14 +70,14 @@ export const ChapterTitleForm = ({
         },
       );
       toast({
-        title: "チャプタータイトルを更新しました",
+        title: "チャプターの詳細を更新しました",
       });
       toggleEdit();
       router.refresh();
     } catch {
       toast({
         variant: "destructive",
-        title: "チャプタータイトルの更新に失敗しました",
+        title: "チャプターの詳細の更新に失敗しました",
       });
     }
   };
@@ -86,7 +85,7 @@ export const ChapterTitleForm = ({
   return (
     <div className="mt-6 border shadow-sm rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        <h3 className="border-b border-sky-500">タイトル</h3>
+        <h3 className="border-b border-sky-500">詳細</h3>
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
@@ -98,7 +97,10 @@ export const ChapterTitleForm = ({
           )}
         </Button>
       </div>
-      {!isEditing && <p className="text-sm mt-2">{initialData.title}</p>}
+      {!isEditing && <p className="text-sm mt-2">{initialData.description}</p>}
+      {!isEditing && !initialData.description && (
+        <p className="text-sm mt-2 text-muted-foreground">詳細が未設定です</p>
+      )}
       {isEditing && (
         <Form {...form}>
           <form
@@ -107,13 +109,13 @@ export const ChapterTitleForm = ({
           >
             <FormField
               control={form.control}
-              name="title"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <Textarea
                       disabled={isSubmitting}
-                      placeholder="e.g. 'Introduction to the course'"
+                      placeholder="チャプターの紹介"
                       {...field}
                     />
                   </FormControl>

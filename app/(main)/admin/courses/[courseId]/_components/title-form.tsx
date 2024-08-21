@@ -40,10 +40,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export const TitleForm = ({
-  initialData,
-  courseId,
-}: Props) => {
+export const TitleForm = ({ initialData, courseId }: Props) => {
   const { getToken } = useAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
@@ -85,14 +82,8 @@ export const TitleForm = ({
   return (
     <div className="mt-6 rounded-md border p-4 shadow-md">
       <div className="flex items-center justify-between font-medium">
-        <h3 className="border-b border-sky-500">
-          講座タイトル
-        </h3>
-        <Button
-          className="px-4"
-          onClick={toggleEdit}
-          variant="ghost"
-        >
+        <h3 className="border-b border-sky-500">タイトル</h3>
+        <Button className="px-4" onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
           ) : (
@@ -103,9 +94,7 @@ export const TitleForm = ({
           )}
         </Button>
       </div>
-      {!isEditing && (
-        <p className="mt-2 text-sm">{initialData.title}</p>
-      )}
+      {!isEditing && <p className="mt-2 text-sm">{initialData.title}</p>}
       {isEditing && (
         <Form {...form}>
           <form
@@ -129,10 +118,7 @@ export const TitleForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button
-                disabled={!isValid || isSubmitting}
-                type="submit"
-              >
+              <Button disabled={!isValid || isSubmitting} type="submit">
                 保存する
               </Button>
             </div>

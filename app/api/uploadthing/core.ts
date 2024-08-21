@@ -1,10 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
-import {
-  createUploadthing,
-  type FileRouter,
-} from "uploadthing/next";
+import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { UTApi } from "uploadthing/server";
 
 const f = createUploadthing();
+const utapi = new UTApi();
 
 const handleAuth = (): { userId: string } => {
   const { userId } = auth();
@@ -19,20 +18,26 @@ export const ourFileRouter = {
   })
     .middleware(handleAuth)
     .onUploadComplete(() => {}),
-  courseAttachment: f([
-    "text",
-    "image",
-    "video",
-    "audio",
-    "pdf",
-  ])
+  courseAttachment: f(["text", "image", "video", "audio", "pdf"])
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
   chapterVideo: f({
     video: { maxFileSize: "512MB", maxFileCount: 1 },
   })
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
+    .onUploadComplete(async ({ file }) => {
+      setTimeout(async () => {
+        try {
+          await utapi.deleteFiles(file.key);
+          console.log(`ファイル ${file.key} を10秒後に削除しました。`);
+        } catch (error) {
+          console.error(
+            `ファイル ${file.key} の削除中にエラーが発生しました:`,
+            error,
+          );
+        }
+      }, 10000);
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

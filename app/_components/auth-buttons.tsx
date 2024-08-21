@@ -21,10 +21,7 @@ export const AuthButtons = () => {
           <UserButton afterSignOutUrl="/" />
         </SignedIn>
         <SignedOut>
-          <SignInButton
-            forceRedirectUrl="/dashboard"
-            mode="modal"
-          >
+          <SignInButton forceRedirectUrl="/home" mode="modal">
             <Button>ログイン</Button>
           </SignInButton>
         </SignedOut>

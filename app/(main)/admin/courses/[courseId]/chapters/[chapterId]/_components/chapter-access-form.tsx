@@ -1,15 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+import { Chapter } from "@/types/chapter";
 import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -20,27 +23,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type Props = {
-  initialData: {
-    title: string;
-  };
+  initialData: Chapter;
   courseId: string;
   chapterId: string;
 };
 
 const formSchema = z.object({
-  title: z
-    .string()
-    .min(1, {
-      message: "タイトルは必須です",
-    })
-    .max(100, {
-      message: "タイトルは100文字以内です",
-    }),
+  freeFlag: z.boolean().default(false),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export const ChapterTitleForm = ({
+export const ChapterAccessForm = ({
   initialData,
   courseId,
   chapterId,
@@ -53,7 +47,9 @@ export const ChapterTitleForm = ({
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: { title: initialData.title },
+    defaultValues: {
+      freeFlag: !!initialData.freeFlag,
+    },
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -62,7 +58,7 @@ export const ChapterTitleForm = ({
     try {
       const token = await getToken();
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/${chapterId}/title`,
+        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/${chapterId}/access`,
         values,
         {
           headers: {
@@ -71,14 +67,14 @@ export const ChapterTitleForm = ({
         },
       );
       toast({
-        title: "チャプタータイトルを更新しました",
+        title: "チャプターのアクセス権限を更新しました",
       });
       toggleEdit();
       router.refresh();
-    } catch {
+    } catch (error) {
       toast({
         variant: "destructive",
-        title: "チャプタータイトルの更新に失敗しました",
+        title: "チャプターのアクセス権限の更新に失敗しました",
       });
     }
   };
@@ -86,7 +82,7 @@ export const ChapterTitleForm = ({
   return (
     <div className="mt-6 border shadow-sm rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        <h3 className="border-b border-sky-500">タイトル</h3>
+        アクセス権限
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
@@ -98,7 +94,18 @@ export const ChapterTitleForm = ({
           )}
         </Button>
       </div>
-      {!isEditing && <p className="text-sm mt-2">{initialData.title}</p>}
+      {!isEditing && (
+        <div
+          className={cn(
+            "text-sm mt-2",
+            !initialData.freeFlag && "text-slate-500",
+          )}
+        >
+          {initialData.freeFlag
+            ? "このチャプターは全てのユーザーが閲覧可能です"
+            : "このチャプターは購入者以外閲覧できません"}
+        </div>
+      )}
       {isEditing && (
         <Form {...form}>
           <form
@@ -107,17 +114,20 @@ export const ChapterTitleForm = ({
           >
             <FormField
               control={form.control}
-              name="title"
+              name="freeFlag"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. 'Introduction to the course'"
-                      {...field}
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="space-y-1 leading-none">
+                    <FormDescription>
+                      このチャプターを全てのユーザーが閲覧可能にする
+                    </FormDescription>
+                  </div>
                 </FormItem>
               )}
             />
