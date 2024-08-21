@@ -9,5 +9,5 @@ export const isAdmin = async (userId?: string | null): Promise<boolean> => {
     console.warn("管理者ユーザーIDが設定されていません");
     return false;
   }
-  return userId === adminUserId;
+  return Boolean(userId) && userId === adminUserId;
 };
