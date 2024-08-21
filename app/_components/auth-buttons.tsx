@@ -7,7 +7,6 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 
 export const AuthButtons = () => {
