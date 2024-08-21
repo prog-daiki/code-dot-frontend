@@ -2,7 +2,7 @@ import { Course } from "@/types/course";
 import { Chapter } from "@/types/chapter";
 import { Category } from "@/types/category";
 import { auth } from "@clerk/nextjs/server";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,6 +17,7 @@ export type PublishCourseWithChapterWithCategory = {
  * @param title タイトル
  * @param categoryId カテゴリーID
  * @returns 公開講座の一覧
+ * @throws Error 公開講座の一覧取得に失敗した場合
  */
 export async function getCoursesPublish(
   title?: string,
@@ -25,10 +26,16 @@ export async function getCoursesPublish(
   try {
     const token = await auth().getToken();
     const params = new URLSearchParams();
-    if (title) params.append("title", title);
-    if (categoryId) params.append("categoryId", categoryId);
+
+    if (title) {
+      params.append("title", title);
+    }
+    if (categoryId) {
+      params.append("categoryId", categoryId);
+    }
+
     const url = `${API_URL}/courses/publish${params.toString() ? `?${params.toString()}` : ""}`;
-    const response = await axios.get<PublishCourseWithChapterWithCategory[]>(
+    const { data } = await axios.get<PublishCourseWithChapterWithCategory[]>(
       url,
       {
         headers: {
@@ -36,9 +43,13 @@ export async function getCoursesPublish(
         },
       },
     );
-    return response.data;
+    return data;
   } catch (error) {
-    console.error("公開講座の一覧取得に失敗しました:", error);
-    throw error;
+    const errorMessage =
+      error instanceof AxiosError
+        ? `公開講座の一覧取得に失敗しました: ${error.message}`
+        : "公開講座の一覧取得中に予期せぬエラーが発生しました";
+    console.error(errorMessage);
+    throw new Error(errorMessage);
   }
 }
