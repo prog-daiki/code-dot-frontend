@@ -17,7 +17,6 @@ export default async function DashboardPage({ searchParams }: Props) {
     searchParams.title,
     searchParams.categoryId,
   );
-  console.log(courses);
 
   return (
     <div>
