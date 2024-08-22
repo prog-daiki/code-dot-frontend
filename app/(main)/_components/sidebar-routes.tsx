@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  BarChart,
-  Book,
-  Home,
-  Layout,
-  List,
-} from "lucide-react";
+import { BarChart, Book, Home, Layout, List } from "lucide-react";
 import { usePathname } from "next/navigation";
-
 import { SidebarItem } from "./sidebar-item";
 
 const guestRoutes = [
@@ -44,21 +37,19 @@ const adminRoutes = [
 
 export const SidebarRoutes = () => {
   const pathname = usePathname();
-
   const isAdminPage = pathname.startsWith("/admin");
   const routes = isAdminPage ? adminRoutes : guestRoutes;
+
   return (
-    <>
-      <div className="flex w-full flex-col">
-        {routes.map((route) => (
-          <SidebarItem
-            href={route.href}
-            icon={route.icon}
-            key={route.href}
-            label={route.label}
-          />
-        ))}
-      </div>
-    </>
+    <div className="flex w-full flex-col">
+      {routes.map((route) => (
+        <SidebarItem
+          href={route.href}
+          icon={route.icon}
+          key={route.href}
+          label={route.label}
+        />
+      ))}
+    </div>
   );
 };
