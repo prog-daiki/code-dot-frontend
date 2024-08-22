@@ -2,7 +2,7 @@ import { HeaderLogo } from "@/app/_components/header-logo";
 import { Button } from "@/components/ui/button";
 import { SignInButton } from "@clerk/nextjs";
 
-export const MarketingHeader = async () => {
+export const MarketingHeader = () => {
   return (
     <header className="h-20 w-full border-b-2 border-slate-200">
       <div className="container flex h-full items-center justify-between">

@@ -1,6 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { Header } from "../_components/header";
 import { Footer } from "../_components/footer";
 import { MarketingHeader } from "./_components/marketing-header";
 
