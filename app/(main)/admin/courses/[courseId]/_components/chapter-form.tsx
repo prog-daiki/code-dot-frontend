@@ -57,59 +57,77 @@ export const ChaptersForm = ({ initialData, courseId }: Props) => {
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: FormData) => {
-    try {
-      const token = await getToken();
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onSubmit = (values: FormData) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      toast({
-        title: "チャプターを登録しました",
-      });
-      form.reset();
-      toggleCreating();
-      router.refresh();
-    } catch {
+        );
+        toast({
+          title: "チャプターを登録しました",
+        });
+        form.reset();
+        toggleCreating();
+        router.refresh();
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "チャプターの登録に失敗しました",
+        });
+      } finally {
+        setIsCreating(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
         variant: "destructive",
-        title: "チャプターの登録に失敗しました",
+        title: "予期せぬエラーが発生しました",
       });
-    }
+    });
   };
 
-  const onReorder = async (updateData: { id: string; position: number }[]) => {
-    try {
-      setIsUpdating(true);
-      const token = await getToken();
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/reorder`,
-        {
-          list: updateData,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onReorder = (updateData: { id: string; position: number }[]) => {
+    (async () => {
+      try {
+        setIsUpdating(true);
+        const token = await getToken();
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/reorder`,
+          {
+            list: updateData,
           },
-        },
-      );
-      toast({
-        title: "チャプターを登録しました",
-      });
-      router.refresh();
-    } catch {
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        toast({
+          title: "チャプターを登録しました",
+        });
+        router.refresh();
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "チャプターの登録に失敗しました",
+        });
+      } finally {
+        setIsUpdating(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
         variant: "destructive",
-        title: "チャプターの登録に失敗しました",
+        title: "予期せぬエラーが発生しました",
       });
-    } finally {
-      setIsUpdating(false);
-    }
+    });
   };
 
   const onEdit = (id: string) => {
@@ -140,7 +158,10 @@ export const ChaptersForm = ({ initialData, courseId }: Props) => {
         <Form {...form}>
           <form
             className="mt-4 space-y-4"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(form.getValues());
+            }}
           >
             <FormField
               control={form.control}
