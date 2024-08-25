@@ -1,6 +1,7 @@
-import { DataTable } from "./_components/data-table";
-import { columns } from "./_components/columns";
 import { getCourses } from "@/data/course/get-courses";
+
+import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
 
 const CoursesPage = async () => {
   const courses = await getCourses();

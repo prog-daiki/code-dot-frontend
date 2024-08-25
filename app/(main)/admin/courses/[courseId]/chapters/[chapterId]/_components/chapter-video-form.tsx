@@ -1,20 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import axios from "axios";
+import { useAuth } from "@clerk/nextjs";
 import MuxPlayer from "@mux/mux-player-react";
+import axios from "axios";
 import { Pencil, PlusCircle, Video } from "lucide-react";
-import Mux from "@mux/mux-node";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+
+import { FileUpload } from "@/app/_components/file-upload";
 import { Chapter } from "@/types/chapter";
 import { MuxData } from "@/types/mux-data";
-import MuxUploader from "@mux/mux-uploader-react";
-import { useAuth } from "@clerk/nextjs";
-import { useToast } from "@/components/ui/use-toast";
-import { FileUpload } from "@/app/_components/file-upload";
-import { VideoUpload } from "./video-upload";
 
 type Props = {
   initialChapterData: Chapter;
@@ -60,20 +59,20 @@ export const ChapterVideoForm = ({
   };
 
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
+    <div className="mt-6 rounded-md border bg-slate-100 p-4">
+      <div className="flex items-center justify-between font-medium">
         動画
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && <>取り消す</>}
           {!isEditing && !initialChapterData.videoUrl && (
             <>
-              <PlusCircle className="size-4 mr-2" />
+              <PlusCircle className="mr-2 size-4" />
               動画を追加
             </>
           )}
           {!isEditing && initialChapterData.videoUrl && (
             <>
-              <Pencil className="size-4 mr-2" />
+              <Pencil className="mr-2 size-4" />
               動画を編集する
             </>
           )}
@@ -81,11 +80,11 @@ export const ChapterVideoForm = ({
       </div>
       {!isEditing &&
         (!initialChapterData.videoUrl ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+          <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">
             <Video className="size-10 text-slate-500" />
           </div>
         ) : (
-          <div className="relative aspect-video mt-2">
+          <div className="relative mt-2 aspect-video">
             <MuxPlayer playbackId={initialMuxData?.playbackId || ""} />
           </div>
         ))}
@@ -99,13 +98,13 @@ export const ChapterVideoForm = ({
               }
             }}
           />
-          <div className="text-xs text-muted-foreground mt-4">
+          <div className="mt-4 text-xs text-muted-foreground">
             このチャプターの動画をアップロードする
           </div>
         </div>
       )}
       {initialChapterData.videoUrl && !isEditing && (
-        <div className="text-xs text-muted-foreground mt-2">
+        <div className="mt-2 text-xs text-muted-foreground">
           動画は数分で処理されます。動画が表示されない場合は、ページを更新してください。
         </div>
       )}

@@ -37,11 +37,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export const CategoryForm = ({
-  initialData,
-  courseId,
-  options,
-}: Props) => {
+export const CategoryForm = ({ initialData, courseId, options }: Props) => {
   const { getToken } = useAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
@@ -55,31 +51,39 @@ export const CategoryForm = ({
     },
   });
 
-  const { isSubmitting } = form.formState;
+  const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: FormData) => {
-    try {
-      const token = await getToken();
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/category`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onSubmit = (values: FormData) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/category`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      toast({
-        title: "カテゴリーを更新しました",
-      });
-      toggleEdit();
-      router.refresh();
-    } catch {
+        );
+        toast({
+          title: "カテゴリーを更新しました",
+        });
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "カテゴリーの更新に失敗しました",
+        });
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
         variant: "destructive",
-        title: "カテゴリーの更新に失敗しました",
+        title: "予期せぬエラーが発生しました",
       });
-    }
+    });
   };
 
   const selectedOption = options.find(
@@ -89,9 +93,7 @@ export const CategoryForm = ({
   return (
     <div className="mt-6 rounded-md border p-4 shadow-md">
       <div className="flex items-center justify-between font-medium">
-        <h3 className="border-b border-sky-500">
-          カテゴリー
-        </h3>
+        <h3 className="border-b border-sky-500">カテゴリー</h3>
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
@@ -110,15 +112,17 @@ export const CategoryForm = ({
             !initialData.categoryId && "text-slate-500",
           )}
         >
-          {selectedOption?.label ||
-            "カテゴリーが未登録です"}
+          {selectedOption?.label || "カテゴリーが未登録です"}
         </p>
       )}
       {isEditing && (
         <Form {...form}>
           <form
             className="mt-4 space-y-4"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(form.getValues());
+            }}
           >
             <FormField
               control={form.control}
@@ -126,17 +130,14 @@ export const CategoryForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Combobox
-                      options={options}
-                      {...field}
-                    />
+                    <Combobox options={options} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={isSubmitting} type="submit">
+              <Button disabled={isSubmitting || !isValid} type="submit">
                 保存する
               </Button>
             </div>

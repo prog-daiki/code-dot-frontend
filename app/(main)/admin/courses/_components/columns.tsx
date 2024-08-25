@@ -1,20 +1,22 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ListFilter, MoreHorizontal, Pencil } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+
+import { formatPrice } from "@/lib/format-price";
 import { cn } from "@/lib/utils";
 import { Course } from "@/types/course";
-import { formatPrice } from "@/lib/format-price";
-import { useState } from "react";
 
 export const columns: ColumnDef<Course>[] = [
   {
@@ -55,9 +57,9 @@ export const columns: ColumnDef<Course>[] = [
 
       return (
         <div className="flex justify-center">
-          <Button variant="ghost" onClick={cycleFilter}>
+          <Button onClick={cycleFilter} variant="ghost">
             公開
-            <ListFilter className="ml-2 h-4 w-4" />
+            <ListFilter className="ml-2 size-4" />
           </Button>
         </div>
       );
@@ -92,15 +94,15 @@ export const columns: ColumnDef<Course>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-4 w-8 p-0">
+            <Button className="h-4 w-8 p-0" variant="ghost">
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
+              <MoreHorizontal className="size-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <Link href={`/admin/courses/${id}`}>
               <DropdownMenuItem>
-                <Pencil className="h-4 w-4 mr-2" />
+                <Pencil className="mr-2 size-4" />
                 編集
               </DropdownMenuItem>
             </Link>

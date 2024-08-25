@@ -1,40 +1,45 @@
-import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
-import { AlertTriangle, CheckCircleIcon } from "lucide-react";
+import { AlertTriangle, CheckCircleIcon, LucideIcon } from "lucide-react";
 
-const bannerVariants = cva(
-  "border text-center p-4 text-sm flex items-center w-full",
+import { cn } from "@/lib/utils";
+
+// バナーのスタイルを定義
+const bannerStyles = cva(
+  "flex w-full items-center border p-4 text-center text-sm",
   {
     variants: {
-      variant: {
-        warning: "bg-yellow-200/80 border-yellow-30 text-primary",
-        success: "bg-emerald-700 border-emerald-800 text-secondary",
+      type: {
+        warning: "border-yellow-300 bg-yellow-200/80 text-primary",
+        success: "border-emerald-800 bg-emerald-700 text-secondary",
       },
     },
     defaultVariants: {
-      variant: "warning",
+      type: "warning",
     },
   },
 );
 
-interface BannerProps extends VariantProps<typeof bannerVariants> {
+// バナーのプロパティを定義
+type BannerType = "warning" | "success";
+
+interface BannerProps extends VariantProps<typeof bannerStyles> {
   label: string;
+  type?: BannerType;
 }
 
-const iconMap = {
+// バナータイプに対応するアイコンを定義
+const bannerIcons: Record<BannerType, LucideIcon> = {
   warning: AlertTriangle,
   success: CheckCircleIcon,
 };
 
-export const Banner = ({ label, variant }: BannerProps) => {
-  const Icon = iconMap[variant || "warning"];
+export const Banner = ({ label, type = "warning" }: BannerProps) => {
+  const Icon = bannerIcons[type];
 
   return (
-    <>
-      <div className={cn(bannerVariants({ variant }))}>
-        <Icon className="size-4 mr-2" />
-        {label}
-      </div>
-    </>
+    <div className={cn(bannerStyles({ type }))}>
+      <Icon className="mr-2 size-4" />
+      {label}
+    </div>
   );
 };

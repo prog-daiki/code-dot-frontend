@@ -1,5 +1,14 @@
 "use client";
 
+import { useAuth } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { Loader2, PlusCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -9,19 +18,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+
 import { cn } from "@/lib/utils";
 import { Chapter } from "@/types/chapter";
-import { Course } from "@/types/course";
-import { useAuth } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { Loader2, Pencil, PlusCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+
 import { ChaptersList } from "./chapter-list";
 
 type Props = {
@@ -56,59 +57,77 @@ export const ChaptersForm = ({ initialData, courseId }: Props) => {
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: FormData) => {
-    try {
-      const token = await getToken();
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onSubmit = (values: FormData) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      toast({
-        title: "チャプターを登録しました",
-      });
-      form.reset();
-      toggleCreating();
-      router.refresh();
-    } catch {
+        );
+        toast({
+          title: "チャプターを登録しました",
+        });
+        form.reset();
+        toggleCreating();
+        router.refresh();
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "チャプターの登録に失敗しました",
+        });
+      } finally {
+        setIsCreating(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
         variant: "destructive",
-        title: "チャプターの登録に失敗しました",
+        title: "予期せぬエラーが発生しました",
       });
-    }
+    });
   };
 
-  const onReorder = async (updateData: { id: string; position: number }[]) => {
-    try {
-      setIsUpdating(true);
-      const token = await getToken();
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/reorder`,
-        {
-          list: updateData,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onReorder = (updateData: { id: string; position: number }[]) => {
+    (async () => {
+      try {
+        setIsUpdating(true);
+        const token = await getToken();
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/chapters/reorder`,
+          {
+            list: updateData,
           },
-        },
-      );
-      toast({
-        title: "チャプターを登録しました",
-      });
-      router.refresh();
-    } catch {
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        toast({
+          title: "チャプターを登録しました",
+        });
+        router.refresh();
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "チャプターの登録に失敗しました",
+        });
+      } finally {
+        setIsUpdating(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
         variant: "destructive",
-        title: "チャプターの登録に失敗しました",
+        title: "予期せぬエラーが発生しました",
       });
-    } finally {
-      setIsUpdating(false);
-    }
+    });
   };
 
   const onEdit = (id: string) => {
@@ -116,20 +135,20 @@ export const ChaptersForm = ({ initialData, courseId }: Props) => {
   };
 
   return (
-    <div className="relative mt-6 border shadow-md rounded-md p-4">
+    <div className="relative mt-6 rounded-md border p-4 shadow-md">
       {isUpdating && (
-        <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-md flex items-center justify-center">
+        <div className="absolute right-0 top-0 flex size-full items-center justify-center rounded-md bg-slate-500/20">
           <Loader2 className="size-6 animate-spin text-sky-700" />
         </div>
       )}
-      <div className="font-medium flex items-center justify-between">
+      <div className="flex items-center justify-between font-medium">
         チャプター
         <Button onClick={toggleCreating} variant="ghost">
           {isCreating ? (
             <>取り消す</>
           ) : (
             <>
-              <PlusCircle className="size-4 mr-2" />
+              <PlusCircle className="mr-2 size-4" />
               追加する
             </>
           )}
@@ -138,8 +157,11 @@ export const ChaptersForm = ({ initialData, courseId }: Props) => {
       {isCreating && (
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
+            className="mt-4 space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(form.getValues());
+            }}
           >
             <FormField
               control={form.control}
@@ -157,7 +179,7 @@ export const ChaptersForm = ({ initialData, courseId }: Props) => {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={!isValid || isSubmitting}>
+            <Button disabled={!isValid || isSubmitting} type="submit">
               登録
             </Button>
           </form>
@@ -172,14 +194,14 @@ export const ChaptersForm = ({ initialData, courseId }: Props) => {
         >
           {!initialData.length && "チャプターが未登録です"}
           <ChaptersList
+            items={initialData || []}
             onEdit={onEdit}
             onReorder={onReorder}
-            items={initialData || []}
           />
         </div>
       )}
       {!isCreating && (
-        <p className="text-xs to-muted-foreground mt-4">
+        <p className="mt-4 to-muted-foreground text-xs">
           チャプターの並べ替えが可能です
         </p>
       )}

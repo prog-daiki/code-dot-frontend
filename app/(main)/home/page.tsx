@@ -1,8 +1,9 @@
 import { getCategories } from "@/data/category/get-categories";
-import { Categories } from "./_components/categories";
-import { SearchInput } from "./_components/search-input";
 import { getCoursesPublish } from "@/data/course/get-courses-publish";
+
+import { Categories } from "./_components/categories";
 import { CoursesList } from "./_components/course-list";
+import { SearchInput } from "./_components/search-input";
 
 type Props = {
   searchParams: {
@@ -17,7 +18,6 @@ export default async function DashboardPage({ searchParams }: Props) {
     searchParams.title,
     searchParams.categoryId,
   );
-  console.log(courses);
 
   return (
     <div>

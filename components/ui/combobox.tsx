@@ -26,11 +26,7 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export const Combobox = ({
-  options,
-  value,
-  onChange,
-}: Props) => {
+export const Combobox = ({ options, value, onChange }: Props) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -43,9 +39,7 @@ export const Combobox = ({
           variant="outline"
         >
           {value
-            ? options.find(
-                (option) => option.value === value,
-              )?.label
+            ? options.find((option) => option.value === value)?.label
             : "選択してください"}
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
@@ -53,20 +47,14 @@ export const Combobox = ({
       <PopoverContent className="p-0">
         <Command>
           <CommandInput placeholder="選択してください" />
-          <CommandEmpty>
-            該当するものが見つかりませんでした
-          </CommandEmpty>
+          <CommandEmpty>該当するものが見つかりませんでした</CommandEmpty>
           <CommandList>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
                   onSelect={() => {
-                    onChange(
-                      option.value === value
-                        ? ""
-                        : option.value,
-                    );
+                    onChange(option.value === value ? "" : option.value);
                     setOpen(false);
                   }}
                   value={option.value}
@@ -74,9 +62,7 @@ export const Combobox = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === option.value
-                        ? "opacity-100"
-                        : "opacity-0",
+                      value === option.value ? "opacity-100" : "opacity-0",
                     )}
                   />
                   {option.label}

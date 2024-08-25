@@ -1,15 +1,17 @@
-import { IconBadge } from "@/app/_components/icon-badge";
-import { getChapter } from "@/data/chapter/get-chapter";
 import { auth } from "@clerk/nextjs/server";
 import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChapterTitleForm } from "./_components/title-form";
-import { ChapterDescriptionForm } from "./_components/description-form";
-import { ChapterAccessForm } from "./_components/chapter-access-form";
-import { ChapterVideoForm } from "./_components/chapter-video-form";
+
 import { Banner } from "@/app/_components/banner";
+import { IconBadge } from "@/app/_components/icon-badge";
+import { getChapter } from "@/data/chapter/get-chapter";
+
+import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChapterActions } from "./_components/chapter-actions";
+import { ChapterVideoForm } from "./_components/chapter-video-form";
+import { ChapterDescriptionForm } from "./_components/description-form";
+import { ChapterTitleForm } from "./_components/title-form";
 
 const ChapterIdPage = async ({
   params,
@@ -40,19 +42,19 @@ const ChapterIdPage = async ({
   return (
     <div className="space-y-4">
       {!chapter.publishFlag && (
-        <Banner variant="warning" label="このチャプターは非公開です" />
+        <Banner label="このチャプターは非公開です" variant="warning" />
       )}
       <div>
         <div className="flex items-center justify-between">
           <div className="w-full">
             <Link
+              className="mb-6 flex items-center text-sm transition hover:opacity-75"
               href={`/admin/courses/${params.courseId}`}
-              className="flex items-center text-sm hover:opacity-75 transition mb-6"
             >
-              <ArrowLeft className="size-4 mr-2" />
+              <ArrowLeft className="mr-2 size-4" />
               講座設定
             </Link>
-            <div className="flex items-center justify-between w-full">
+            <div className="flex w-full items-center justify-between">
               <div className="flex flex-col gap-y-2">
                 <h1 className="text-2xl font-medium">チャプター設定</h1>
                 <span className="text-sm text-slate-700">
@@ -60,15 +62,15 @@ const ChapterIdPage = async ({
                 </span>
               </div>
               <ChapterActions
-                disabled={!isComplete}
-                courseId={params.courseId}
                 chapterId={params.chapterId}
+                courseId={params.courseId}
+                disabled={!isComplete}
                 isPublished={chapter.publishFlag}
               />
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="space-y-8">
             <div>
               <div className="flex items-center gap-x-2">
@@ -76,14 +78,14 @@ const ChapterIdPage = async ({
                 <h2 className="text-xl">チャプターのカスタマイズ</h2>
               </div>
               <ChapterTitleForm
-                initialData={chapter}
-                courseId={params.courseId}
                 chapterId={params.chapterId}
+                courseId={params.courseId}
+                initialData={chapter}
               />
               <ChapterDescriptionForm
-                initialData={chapter}
-                courseId={params.courseId}
                 chapterId={params.chapterId}
+                courseId={params.courseId}
+                initialData={chapter}
               />
             </div>
             <div>
@@ -92,9 +94,9 @@ const ChapterIdPage = async ({
                 <h2 className="text-xl">アクセス設定</h2>
               </div>
               <ChapterAccessForm
-                initialData={chapter}
-                courseId={params.courseId}
                 chapterId={params.chapterId}
+                courseId={params.courseId}
+                initialData={chapter}
               />
             </div>
           </div>
@@ -104,10 +106,10 @@ const ChapterIdPage = async ({
               <h2 className="text-xl">動画を追加</h2>
             </div>
             <ChapterVideoForm
+              chapterId={params.chapterId}
+              courseId={params.courseId}
               initialChapterData={chapter}
               initialMuxData={muxData}
-              courseId={params.courseId}
-              chapterId={params.chapterId}
             />
           </div>
         </div>

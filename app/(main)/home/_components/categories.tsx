@@ -1,6 +1,7 @@
 "use client";
 
 import { Category } from "@/types/category";
+
 import { CategoryItem } from "./category-item";
 
 type Props = {

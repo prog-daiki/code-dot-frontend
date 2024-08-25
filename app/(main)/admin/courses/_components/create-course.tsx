@@ -1,12 +1,15 @@
 "use client";
 
-import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { PlusCircle } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -23,10 +26,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   title: z
@@ -80,8 +81,8 @@ export const CreateCourse = () => {
 
   return (
     <Dialog>
-      <DialogTrigger className="rounded-md bg-sky-700 hover:bg-sky-900 transition px-4 py-2 text-white flex items-center">
-        <PlusCircle className="size-4 mr-2" />
+      <DialogTrigger className="flex items-center rounded-md bg-sky-700 px-4 py-2 text-white transition hover:bg-sky-900">
+        <PlusCircle className="mr-2 size-4" />
         講座を作成
       </DialogTrigger>
       <DialogContent>
@@ -119,9 +120,9 @@ export const CreateCourse = () => {
                 </Button>
               </Link>
               <Button
+                className="bg-sky-700 hover:bg-sky-900"
                 disabled={isSubmitting}
                 type="submit"
-                className="bg-sky-700 hover:bg-sky-900"
               >
                 作成する
               </Button>

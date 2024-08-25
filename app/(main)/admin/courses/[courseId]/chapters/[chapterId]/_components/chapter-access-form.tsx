@@ -1,18 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
-import { Chapter } from "@/types/chapter";
 import { useAuth } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -21,6 +8,20 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+} from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
+
+import { cn } from "@/lib/utils";
+import { Chapter } from "@/types/chapter";
 
 type Props = {
   initialData: Chapter;
@@ -80,15 +81,15 @@ export const ChapterAccessForm = ({
   };
 
   return (
-    <div className="mt-6 border shadow-sm rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
+    <div className="mt-6 rounded-md border p-4 shadow-sm">
+      <div className="flex items-center justify-between font-medium">
         アクセス権限
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
           ) : (
             <>
-              <Pencil className="size-4 mr-2" />
+              <Pencil className="mr-2 size-4" />
               編集
             </>
           )}
@@ -109,8 +110,8 @@ export const ChapterAccessForm = ({
       {isEditing && (
         <Form {...form}>
           <form
+            className="mt-4 space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
           >
             <FormField
               control={form.control}
@@ -132,7 +133,7 @@ export const ChapterAccessForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button type="submit" disabled={!isValid || isSubmitting}>
+              <Button disabled={!isValid || isSubmitting} type="submit">
                 保存
               </Button>
             </div>

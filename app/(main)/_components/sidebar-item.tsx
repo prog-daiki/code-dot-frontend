@@ -3,8 +3,9 @@
 import { LucideIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
+import { cn } from "@/lib/utils";
 
 type Props = {
   icon: LucideIcon;
@@ -21,19 +22,15 @@ export const SidebarItem = ({ icon: Icon, label, href }: Props) => {
     pathname === href ||
     pathname?.startsWith(`${href}/`);
 
-  const onClick = () => {
-    router.push(href);
-  };
-
   return (
     <Button
-      variant="sidebar"
       className={cn(
         isActive &&
           "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700",
       )}
-      onClick={onClick}
+      onClick={() => router.push(href)}
       size="lg"
+      variant="sidebar"
     >
       <div className="flex items-center gap-x-2 py-4">
         <Icon
