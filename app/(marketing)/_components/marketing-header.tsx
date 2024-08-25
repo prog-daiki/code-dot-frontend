@@ -1,6 +1,8 @@
-import { HeaderLogo } from "@/app/_components/header-logo";
-import { Button } from "@/components/ui/button";
 import { SignInButton } from "@clerk/nextjs";
+
+import { Button } from "@/components/ui/button";
+
+import { HeaderLogo } from "@/app/_components/header-logo";
 
 export const MarketingHeader = () => {
   return (
@@ -9,7 +11,7 @@ export const MarketingHeader = () => {
         <HeaderLogo />
         <div className="flex items-center gap-x-8">
           <SignInButton forceRedirectUrl="/home" mode="modal">
-            <Button className="bg-sky-700 hover:bg-sky-900 text-white w-full">
+            <Button className="w-full bg-sky-700 text-white hover:bg-sky-900">
               ログイン
             </Button>
           </SignInButton>

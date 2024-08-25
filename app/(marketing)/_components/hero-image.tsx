@@ -2,11 +2,11 @@ import Image from "next/image";
 
 export const HeroImage = () => {
   return (
-    <div className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] relative">
+    <div className="relative size-[300px] md:size-[450px] lg:size-[500px]">
       <Image
-        src="/engineer.jpeg"
         alt="hero"
         fill
+        src="/engineer.jpeg"
         style={{ objectFit: "cover" }}
       />
     </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,7 +11,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import * as React from "react";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -21,8 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { CreateCourse } from "./create-course";
 
 interface DataTableProps<TData, TValue> {
@@ -58,12 +59,12 @@ export function DataTable<TData, TValue>({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <Input
-          placeholder="講座名で検索する"
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          className="max-w-sm"
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          placeholder="講座名で検索する"
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
         />
         <div className="hidden md:block">
           <CreateCourse />
@@ -77,8 +78,8 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header, index) => {
                   return (
                     <TableHead
-                      key={header.id}
                       className={index === 0 ? "w-[600px]" : "w-[200px]"}
+                      key={header.id}
                     >
                       {header.isPlaceholder
                         ? null
@@ -96,13 +97,13 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  key={row.id}
                 >
                   {row.getVisibleCells().map((cell, index) => (
                     <TableCell
-                      key={cell.id}
                       className={index === 0 ? "w-[600px]" : "w-[200px]"}
+                      key={cell.id}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -115,8 +116,8 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center"
+                  colSpan={columns.length}
                 >
                   講座が見つかりませんでした
                 </TableCell>
@@ -124,24 +125,24 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-end py-4 px-4 space-x-4">
+        <div className="flex items-center justify-end space-x-4 p-4">
           <div className="text-sm text-muted-foreground">
             {table.getFilteredRowModel().rows.length} 件の講座
           </div>
           <div className="space-x-2">
             <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
+              onClick={() => table.previousPage()}
+              size="sm"
+              variant="outline"
             >
               前へ
             </Button>
             <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
+              onClick={() => table.nextPage()}
+              size="sm"
+              variant="outline"
             >
               次へ
             </Button>

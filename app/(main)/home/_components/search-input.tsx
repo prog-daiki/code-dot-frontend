@@ -1,11 +1,14 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
-import { useDebounce } from "@/hooks/use-debounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
+import { useEffect, useState } from "react";
+
+import { Input } from "@/components/ui/input";
+
+import { useDebounce } from "@/hooks/use-debounce";
+
 
 export const SearchInput = () => {
   const [value, setValue] = useState("");
@@ -34,12 +37,12 @@ export const SearchInput = () => {
 
   return (
     <div className="relative">
-      <Search className="size-4 absolute top-3 left-3 text-slate-600" />
+      <Search className="absolute left-3 top-3 size-4 text-slate-600" />
       <Input
+        className="w-full rounded-md pl-9 focus-visible:ring-slate-200"
         onChange={(e) => setValue(e.target.value)}
-        value={value}
-        className="w-full pl-9 rounded-md focus-visible:ring-slate-200"
         placeholder="講座を検索する"
+        value={value}
       />
     </div>
   );

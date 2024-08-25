@@ -1,5 +1,5 @@
-import { HeroImage } from "./_components/hero-image";
 import { CallAction } from "./_components/call-action";
+import { HeroImage } from "./_components/hero-image";
 
 export default function MarketingPage() {
   return (
