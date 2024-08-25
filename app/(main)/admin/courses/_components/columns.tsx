@@ -14,12 +14,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-
-
 import { formatPrice } from "@/lib/format-price";
 import { cn } from "@/lib/utils";
 import { Course } from "@/types/course";
-
 
 export const columns: ColumnDef<Course>[] = [
   {

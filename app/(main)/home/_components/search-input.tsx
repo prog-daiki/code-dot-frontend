@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 
 import { useDebounce } from "@/hooks/use-debounce";
 
-
 export const SearchInput = () => {
   const [value, setValue] = useState("");
   const debouncedValue = useDebounce(value, 500);

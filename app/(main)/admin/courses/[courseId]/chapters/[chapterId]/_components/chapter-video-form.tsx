@@ -15,7 +15,6 @@ import { FileUpload } from "@/app/_components/file-upload";
 import { Chapter } from "@/types/chapter";
 import { MuxData } from "@/types/mux-data";
 
-
 type Props = {
   initialChapterData: Chapter;
   initialMuxData: MuxData | null;

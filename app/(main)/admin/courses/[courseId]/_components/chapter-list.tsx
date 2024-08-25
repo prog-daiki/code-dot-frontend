@@ -16,17 +16,11 @@ import { Chapter } from "@/types/chapter";
 
 type Props = {
   items: Chapter[];
-  onReorder: (
-    updateData: { id: string; position: number }[],
-  ) => void;
+  onReorder: (updateData: { id: string; position: number }[]) => void;
   onEdit: (id: string) => void;
 };
 
-export const ChaptersList = ({
-  items,
-  onReorder,
-  onEdit,
-}: Props) => {
+export const ChaptersList = ({ items, onReorder, onEdit }: Props) => {
   const [isMounted, setIsMounted] = useState(false);
   const [chapters, setChapters] = useState(items);
 
@@ -44,37 +38,20 @@ export const ChaptersList = ({
 
     // 配列のコピーを生成
     const newChapters = Array.from(chapters);
-    const [reorderItem] = newChapters.splice(
-      source.index,
-      1,
-    );
+    const [reorderItem] = newChapters.splice(source.index, 1);
     newChapters.splice(destination.index, 0, reorderItem!);
 
     setChapters(newChapters);
 
-    const startIndex = Math.min(
-      source.index,
-      destination.index,
-    );
-    const endIndex = Math.max(
-      source.index,
-      destination.index,
-    );
+    const startIndex = Math.min(source.index, destination.index);
+    const endIndex = Math.max(source.index, destination.index);
 
-    const updateChapters = newChapters.slice(
-      startIndex,
-      endIndex + 1,
-    );
+    const updateChapters = newChapters.slice(startIndex, endIndex + 1);
 
-    const bulkUpdateData = updateChapters.map(
-      (chapter) => ({
-        id: chapter.id,
-        position:
-          newChapters.findIndex(
-            (item) => item.id === chapter.id,
-          ) + 1,
-      }),
-    );
+    const bulkUpdateData = updateChapters.map((chapter) => ({
+      id: chapter.id,
+      position: newChapters.findIndex((item) => item.id === chapter.id) + 1,
+    }));
 
     onReorder(bulkUpdateData);
   };
@@ -88,10 +65,7 @@ export const ChaptersList = ({
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="chapters">
           {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
+            <div {...provided.droppableProps} ref={provided.innerRef}>
               {chapters.map((chapter, index) => (
                 <Draggable
                   draggableId={chapter.id}
@@ -120,19 +94,14 @@ export const ChaptersList = ({
                       </div>
                       {chapter.title}
                       <div className="ml-auto flex items-center gap-x-2 pr-2">
-                        {chapter.freeFlag && (
-                          <Badge>Free</Badge>
-                        )}
+                        {chapter.freeFlag && <Badge>Free</Badge>}
                         <Badge
                           className={cn(
                             "bg-slate-500",
-                            chapter.publishFlag &&
-                              "bg-sky-700",
+                            chapter.publishFlag && "bg-sky-700",
                           )}
                         >
-                          {chapter.publishFlag
-                            ? "Published"
-                            : "Draft"}
+                          {chapter.publishFlag ? "Published" : "Draft"}
                         </Badge>
                         <Pencil
                           className="size-4 cursor-pointer transition hover:opacity-75"
