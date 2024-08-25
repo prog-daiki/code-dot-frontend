@@ -10,7 +10,7 @@ export const Footer = () => {
     <footer className="h-20 w-full border-t-2 border-slate-200">
       <div className="container flex h-full items-center justify-start space-x-8 text-muted-foreground">
         {footerLinks.map(({ href, text }) => (
-          <Link key={href} href={href} className="hover:underline transition">
+          <Link className="transition hover:underline" href={href} key={href}>
             {text}
           </Link>
         ))}

@@ -1,15 +1,16 @@
-import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
 import { AlertTriangle, CheckCircleIcon, LucideIcon } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 // バナーのスタイルを定義
 const bannerStyles = cva(
-  "border text-center p-4 text-sm flex items-center w-full",
+  "flex w-full items-center border p-4 text-center text-sm",
   {
     variants: {
       type: {
-        warning: "bg-yellow-200/80 border-yellow-300 text-primary",
-        success: "bg-emerald-700 border-emerald-800 text-secondary",
+        warning: "border-yellow-300 bg-yellow-200/80 text-primary",
+        success: "border-emerald-800 bg-emerald-700 text-secondary",
       },
     },
     defaultVariants: {
@@ -37,7 +38,7 @@ export const Banner = ({ label, type = "warning" }: BannerProps) => {
 
   return (
     <div className={cn(bannerStyles({ type }))}>
-      <Icon className="size-4 mr-2" />
+      <Icon className="mr-2 size-4" />
       {label}
     </div>
   );

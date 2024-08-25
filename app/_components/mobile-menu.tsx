@@ -1,6 +1,9 @@
 import { Menu } from "lucide-react";
+
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
 import { Sidebar } from "../(main)/_components/sidebar";
+
 import { HeaderLogo } from "./header-logo";
 
 export const MobileMenu = () => {

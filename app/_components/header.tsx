@@ -1,5 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
+
 import { isAdmin } from "@/lib/isAdmin";
+
 import { AdminButton } from "./admin-button";
 import { AuthButtons } from "./auth-buttons";
 import { HeaderLogo } from "./header-logo";
