@@ -34,29 +34,39 @@ export const ImageForm = ({ initialData, courseId }: Props) => {
   const toggleEdit = () => setIsEditing((prev) => !prev);
   const router = useRouter();
 
-  const onSubmit = async (values: FormData) => {
-    try {
-      const token = await getToken();
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/thumbnail`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onSubmit = (values: FormData) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/thumbnail`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
+        );
+        toast({
+          title: "講座のサムネイルを更新しました",
+        });
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast({
+          title: "講座のサムネイルの更新に失敗しました",
+          variant: "destructive",
+        });
+      } finally {
+        setIsEditing(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
-        title: "講座のサムネイルを更新しました",
-      });
-      toggleEdit();
-      router.refresh();
-    } catch {
-      toast({
-        title: "講座のサムネイルの更新に失敗しました",
         variant: "destructive",
+        title: "予期せぬエラーが発生しました",
       });
-    }
+    });
   };
 
   return (
