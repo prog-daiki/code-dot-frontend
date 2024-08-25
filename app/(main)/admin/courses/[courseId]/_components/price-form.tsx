@@ -53,31 +53,41 @@ export const PriceForm = ({ initialData, courseId }: Props) => {
     defaultValues: initialData,
   });
 
-  const { isSubmitting } = form.formState;
+  const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: FormData) => {
-    try {
-      const token = await getToken();
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/price`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onSubmit = (values: FormData) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/price`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      toast({
-        title: "講座の価格を更新しました",
-      });
-      toggleEdit();
-      router.refresh();
-    } catch {
+        );
+        toast({
+          title: "講座の価格を更新しました",
+        });
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "講座の価格の更新に失敗しました",
+        });
+      } finally {
+        setIsEditing(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
         variant: "destructive",
-        title: "講座の価格の更新に失敗しました",
+        title: "予期せぬエラーが発生しました",
       });
-    }
+    });
   };
 
   return (
@@ -108,7 +118,10 @@ export const PriceForm = ({ initialData, courseId }: Props) => {
         <Form {...form}>
           <form
             className="mt-4 space-y-4"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(form.getValues());
+            }}
           >
             <FormField
               control={form.control}
@@ -129,7 +142,7 @@ export const PriceForm = ({ initialData, courseId }: Props) => {
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={isSubmitting} type="submit">
+              <Button disabled={isSubmitting || !isValid} type="submit">
                 保存する
               </Button>
             </div>
