@@ -40,10 +40,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export const DescriptionForm = ({
-  initialData,
-  courseId,
-}: Props) => {
+export const DescriptionForm = ({ initialData, courseId }: Props) => {
   const { getToken } = useAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
@@ -57,44 +54,47 @@ export const DescriptionForm = ({
     },
   });
 
-  const { isSubmitting } = form.formState;
+  const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: FormData) => {
-    try {
-      const token = await getToken();
-      await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/description`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onSubmit = (values: FormData) => {
+    (async () => {
+      try {
+        const token = await getToken();
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/description`,
+          values,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
+        );
+        toast({
+          title: "講座詳細を更新しました",
+        });
+        toggleEdit();
+        router.refresh();
+      } catch (error) {
+        console.error("エラー:", error);
+        toast({
+          title: "エラーが発生しました",
+          variant: "destructive",
+        });
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
-        title: "講座詳細を更新しました",
-      });
-      toggleEdit();
-      router.refresh();
-    } catch {
-      toast({
-        title: "エラーが発生しました",
         variant: "destructive",
+        title: "予期せぬエラーが発生しました",
       });
-    }
+    });
   };
 
   return (
     <div className="mt-6 rounded-md border p-4 shadow-md">
       <div className="flex items-center justify-between font-medium">
-        <h3 className="border-b border-sky-500">
-          講座詳細
-        </h3>
-        <Button
-          className="px-4"
-          onClick={toggleEdit}
-          variant="ghost"
-        >
+        <h3 className="border-b border-sky-500">詳細</h3>
+        <Button className="px-4" onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
           ) : (
@@ -105,16 +105,15 @@ export const DescriptionForm = ({
           )}
         </Button>
       </div>
-      {!isEditing && (
-        <p className="mt-2 text-sm">
-          {initialData.description}
-        </p>
-      )}
+      {!isEditing && <p className="mt-2 text-sm">{initialData.description}</p>}
       {isEditing && (
         <Form {...form}>
           <form
             className="mt-4 space-y-4"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(form.getValues());
+            }}
           >
             <FormField
               control={form.control}
@@ -133,7 +132,7 @@ export const DescriptionForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={isSubmitting} type="submit">
+              <Button disabled={isSubmitting || !isValid} type="submit">
                 保存する
               </Button>
             </div>
