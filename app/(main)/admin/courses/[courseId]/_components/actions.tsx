@@ -25,74 +25,90 @@ export const Actions = ({ disabled, courseId, isPublished }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { getToken } = useAuth();
 
-  const onClick = async () => {
-    try {
-      setIsLoading(true);
-      const token = await getToken();
-      if (isPublished) {
-        await axios.put(
-          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/unpublish`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
+  const onClick = () => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        const token = await getToken();
+        if (isPublished) {
+          await axios.put(
+            `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/unpublish`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             },
-          },
-        );
-        toast({
-          title: "コースを非公開にしました",
-        });
-      } else {
-        await axios.put(
-          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/publish`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
+          );
+          toast({
+            title: "コースを非公開にしました",
+          });
+        } else {
+          await axios.put(
+            `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}/publish`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             },
-          },
-        );
+          );
+          toast({
+            title: "コースを公開しました",
+          });
+          confetti.onOpen();
+        }
+        router.refresh();
+      } catch (error) {
         toast({
-          title: "コースを公開しました",
+          title: "コースの公開/非公開に失敗しました",
+          variant: "destructive",
         });
-        confetti.onOpen();
+      } finally {
+        setIsLoading(false);
       }
-      router.refresh();
-    } catch (error) {
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
-        title: "コースの公開/非公開に失敗しました",
         variant: "destructive",
+        title: "予期せぬエラーが発生しました",
       });
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
-  const onDelete = async () => {
-    try {
-      setIsLoading(true);
-      const token = await getToken();
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+  const onDelete = () => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        const token = await getToken();
+        await axios.delete(
+          `${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
+        );
+        toast({
+          title: "コースを削除しました",
+        });
+        router.refresh();
+        router.push(`/admin/courses`);
+      } catch (error) {
+        toast({
+          title: "コースの削除に失敗しました",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    })().catch((error) => {
+      console.error("予期せぬエラー:", error);
       toast({
-        title: "コースを削除しました",
-      });
-      router.refresh();
-      router.push(`/admin/courses`);
-    } catch (error) {
-      toast({
-        title: "コースの削除に失敗しました",
         variant: "destructive",
+        title: "予期せぬエラーが発生しました",
       });
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   return (
