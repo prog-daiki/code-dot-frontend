@@ -112,22 +112,20 @@ export const Actions = ({ disabled, courseId, isPublished }: Props) => {
   };
 
   return (
-    <>
-      <div className="flex items-center gap-x-2">
-        <Button
-          disabled={disabled || isLoading}
-          onClick={onClick}
-          size="sm"
-          variant="outline"
-        >
-          {isPublished ? "非公開にする" : "公開する"}
+    <div className="flex items-center gap-x-2">
+      <Button
+        disabled={disabled || isLoading}
+        onClick={onClick}
+        size="sm"
+        variant="outline"
+      >
+        {isPublished ? "非公開にする" : "公開する"}
+      </Button>
+      <ConfirmModal onConfirm={onDelete}>
+        <Button disabled={isLoading} size="sm">
+          <Trash className="size-4" />
         </Button>
-        <ConfirmModal onConfirm={onDelete}>
-          <Button disabled={isLoading} size="sm">
-            <Trash className="size-4" />
-          </Button>
-        </ConfirmModal>
-      </div>
-    </>
+      </ConfirmModal>
+    </div>
   );
 };
