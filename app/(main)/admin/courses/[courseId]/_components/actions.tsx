@@ -1,14 +1,16 @@
 "use client";
 
-import { ConfirmModal } from "@/app/_components/confirm-modal";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+
+import { ConfirmModal } from "@/app/_components/confirm-modal";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 type Props = {
   disabled: boolean;
@@ -97,15 +99,15 @@ export const Actions = ({ disabled, courseId, isPublished }: Props) => {
     <>
       <div className="flex items-center gap-x-2">
         <Button
-          onClick={onClick}
           disabled={disabled || isLoading}
-          variant="outline"
+          onClick={onClick}
           size="sm"
+          variant="outline"
         >
           {isPublished ? "非公開にする" : "公開する"}
         </Button>
         <ConfirmModal onConfirm={onDelete}>
-          <Button size="sm" disabled={isLoading}>
+          <Button disabled={isLoading} size="sm">
             <Trash className="size-4" />
           </Button>
         </ConfirmModal>

@@ -1,19 +1,19 @@
 import { LayoutDashboard, ListChecks } from "lucide-react";
 import { redirect } from "next/navigation";
 
+import { Banner } from "@/app/_components/banner";
 import { IconBadge } from "@/app/_components/icon-badge";
 import { getCategories } from "@/data/category/get-categories";
+import { getChapters } from "@/data/chapter/get-chapters";
 import { getCourse } from "@/data/course/get-course";
 
+import { Actions } from "./_components/actions";
 import { CategoryForm } from "./_components/category-form";
+import { ChaptersForm } from "./_components/chapter-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
-import { TitleForm } from "./_components/title-form";
 import { PriceForm } from "./_components/price-form";
-import { ChaptersForm } from "./_components/chapter-form";
-import { getChapters } from "@/data/chapter/get-chapters";
-import { Actions } from "./_components/actions";
-import { Banner } from "@/app/_components/banner";
+import { TitleForm } from "./_components/title-form";
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const course = await getCourse(params.courseId);
@@ -47,8 +47,8 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
             </span>
           </div>
           <Actions
-            disabled={!isComplete}
             courseId={params.courseId}
+            disabled={!isComplete}
             isPublished={course.publishFlag!}
           />
         </div>
@@ -69,7 +69,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                 value: category.id,
               }))}
             />
-            <PriceForm initialData={course} courseId={course.id} />
+            <PriceForm courseId={course.id} initialData={course} />
           </div>
           <div className="space-y-6">
             <div>
@@ -77,7 +77,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                 <IconBadge icon={ListChecks} />
                 <h2 className="text-xl">チャプター</h2>
               </div>
-              <ChaptersForm initialData={chapters} courseId={course.id} />
+              <ChaptersForm courseId={course.id} initialData={chapters} />
             </div>
           </div>
         </div>

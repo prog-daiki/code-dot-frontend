@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
+import { Grid, Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { Badge } from "@/components/ui/badge";
 
 import { cn } from "@/lib/utils";
-import { Grid, Pencil } from "lucide-react";
 import { Chapter } from "@/types/chapter";
-import { Badge } from "@/components/ui/badge";
 
 type Props = {
   items: Chapter[];
@@ -93,9 +94,9 @@ export const ChaptersList = ({
             >
               {chapters.map((chapter, index) => (
                 <Draggable
-                  key={chapter.id}
                   draggableId={chapter.id}
                   index={index}
+                  key={chapter.id}
                 >
                   {(provided) => (
                     <div
@@ -118,7 +119,7 @@ export const ChaptersList = ({
                         <Grid className="size-5" />
                       </div>
                       {chapter.title}
-                      <div className="ml-auto pr-2 flex items-center gap-x-2">
+                      <div className="ml-auto flex items-center gap-x-2 pr-2">
                         {chapter.freeFlag && (
                           <Badge>Free</Badge>
                         )}
@@ -134,8 +135,8 @@ export const ChaptersList = ({
                             : "Draft"}
                         </Badge>
                         <Pencil
+                          className="size-4 cursor-pointer transition hover:opacity-75"
                           onClick={() => onEdit(chapter.id)}
-                          className="size-4 cursor-pointer hover:opacity-75 transition"
                         />
                       </div>
                     </div>

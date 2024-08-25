@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -9,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import { CategoryForm } from "./_components/category-form";
 
 const CategoriesPage = () => {

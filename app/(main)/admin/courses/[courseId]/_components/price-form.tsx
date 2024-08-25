@@ -20,8 +20,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
-import { Course } from "@/types/course";
 import { formatPrice } from "@/lib/format-price";
+import { Course } from "@/types/course";
 
 type Props = {
   initialData: Course;
@@ -117,10 +117,10 @@ export const PriceForm = ({ initialData, courseId }: Props) => {
                 <FormItem>
                   <FormControl>
                     <Input
-                      type="number"
-                      step="1"
                       disabled={isSubmitting}
                       placeholder="1000"
+                      step="1"
+                      type="number"
                       {...field}
                     />
                   </FormControl>

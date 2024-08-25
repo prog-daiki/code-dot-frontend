@@ -1,5 +1,14 @@
 "use client";
 
+import { useAuth } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { Pencil } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,15 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+
 import { Chapter } from "@/types/chapter";
-import { useAuth } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 type Props = {
   initialData: Chapter;
@@ -83,29 +85,29 @@ export const ChapterDescriptionForm = ({
   };
 
   return (
-    <div className="mt-6 border shadow-sm rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
+    <div className="mt-6 rounded-md border p-4 shadow-sm">
+      <div className="flex items-center justify-between font-medium">
         <h3 className="border-b border-sky-500">詳細</h3>
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>取り消す</>
           ) : (
             <>
-              <Pencil className="size-4 mr-2" />
+              <Pencil className="mr-2 size-4" />
               編集
             </>
           )}
         </Button>
       </div>
-      {!isEditing && <p className="text-sm mt-2">{initialData.description}</p>}
+      {!isEditing && <p className="mt-2 text-sm">{initialData.description}</p>}
       {!isEditing && !initialData.description && (
-        <p className="text-sm mt-2 text-muted-foreground">詳細が未設定です</p>
+        <p className="mt-2 text-sm text-muted-foreground">詳細が未設定です</p>
       )}
       {isEditing && (
         <Form {...form}>
           <form
+            className="mt-4 space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
           >
             <FormField
               control={form.control}
@@ -124,7 +126,7 @@ export const ChapterDescriptionForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button type="submit" disabled={!isValid || isSubmitting}>
+              <Button disabled={!isValid || isSubmitting} type="submit">
                 保存
               </Button>
             </div>

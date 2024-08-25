@@ -1,13 +1,15 @@
 "use client";
 
-import { ConfirmModal } from "@/app/_components/confirm-modal";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+
+import { ConfirmModal } from "@/app/_components/confirm-modal";
 
 type Props = {
   disabled: boolean;
@@ -100,15 +102,15 @@ export const ChapterActions = ({
     <>
       <div className="flex items-center gap-x-2">
         <Button
-          onClick={onClick}
           disabled={disabled || isLoading}
-          variant="outline"
+          onClick={onClick}
           size="sm"
+          variant="outline"
         >
           {isPublished ? "UnPublish" : "Publish"}
         </Button>
         <ConfirmModal onConfirm={onDelete}>
-          <Button size="sm" disabled={isLoading}>
+          <Button disabled={isLoading} size="sm">
             <Trash className="size-4" />
           </Button>
         </ConfirmModal>
