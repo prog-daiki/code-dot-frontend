@@ -1,5 +1,6 @@
 import { IconBadge } from "@/app/_components/icon-badge";
 import { getCoursePublish } from "@/data/course/get-course-publish";
+import { formatPrice } from "@/lib/format-price";
 import MuxPlayer from "@mux/mux-player-react";
 import { BookOpen, PlayCircle } from "lucide-react";
 
@@ -16,6 +17,9 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
           <p className="text-md text-muted-foreground">{data.category.name}</p>
           <h2 className="text-4xl font-bold">{data.course.title}</h2>
           <p>{data.course.description}</p>
+          <p className="text-sky-900 text-xl font-bold">
+            {formatPrice(data.course.price!)}
+          </p>
           <div className="flex space-x-4">
             <p className="text-muted-foreground">
               更新日時：{new Date(data.course.updateDate).toLocaleDateString()}
