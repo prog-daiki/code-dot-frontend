@@ -1,16 +1,26 @@
 import { jaJP } from "@clerk/localizations";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Inter } from "next/font/google";
+import { Inter, Noto_Sans_JP } from "next/font/google";
 
 import type { Metadata } from "next";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const notoSansJP = Noto_Sans_JP({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-noto-sans-jp",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "code.",
-  description: "code dot frontend",
+  description: "code. -- プログラミング学習サービス",
 };
 
 export default function RootLayout({
@@ -20,8 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider localization={jaJP}>
-      <html lang="ja">
-        <body className={inter.className}>{children}</body>
+      <html lang="ja" className={`${notoSansJP.variable} font-sans`}>
+        <body className={`${inter.variable} ${notoSansJP.variable}`}>
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
