@@ -4,8 +4,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { Sidebar } from "../(main)/_components/sidebar";
 
-import { HeaderLogo } from "./header-logo";
-
 export const MobileMenu = () => {
   return (
     <>
@@ -14,7 +12,6 @@ export const MobileMenu = () => {
           <Menu />
         </SheetTrigger>
         <SheetContent className="bg-white" side="left">
-          <HeaderLogo />
           <Sidebar />
         </SheetContent>
       </Sheet>
