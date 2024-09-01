@@ -1,7 +1,7 @@
 const TermsPage = () => {
   return (
     <div className="container mx-auto px-4 py-20">
-      <h1 className="text-4xl font-bold mb-8 text-center text-sky-700">
+      <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center text-sky-700">
         利用規約
       </h1>
       <div className="prose prose-sm max-w-none bg-white p-8 rounded-lg shadow-lg border">
@@ -25,7 +25,7 @@ const TermsPage = () => {
           本サービスにおいては，登録希望者が本規約に同意の上，定める方法によって利用登録を申請し，これを承認することによって，利用登録が完了するものとします。
           利用登録の申請者に以下の事由があると判断した場合，利用登録の申請を承認しないことがあり，その理由については一切の開示義務を負わないものとします。
         </p>
-        <ul className="list-disc pl-5 mb-4">
+        <ul className="list-disc pl-8 mb-4 bg-gray-100 mt-4 p-4">
           <li>利用登録の申請に際して虚偽の事項を届け出た場合</li>
           <li>本規約に違反したことがある者からの申請である場合</li>
           <li>その他，利用登録を相当でないと判断した場合</li>
@@ -54,7 +54,7 @@ const TermsPage = () => {
         <p>
           ユーザーは，本サービスの利用にあたり，以下の行為をしてはなりません。
         </p>
-        <ol className="list-decimal pl-5 mb-4">
+        <ol className="list-decimal pl-8 mb-4 bg-gray-100 mt-4 p-4">
           <li>法令または公序良俗に違反する行為 犯罪行為に関連する行為</li>
           <li>
             本サービスの内容等，本サービスに含まれる著作権，商標権ほか知的財産権を侵害する行為
@@ -85,7 +85,7 @@ const TermsPage = () => {
         <p>
           以下のいずれかの事由があると判断した場合，ユーザーに事前に通知することなく本サービスの全部または一部の提供を停止または中断することができるものとします。
         </p>
-        <ol className="list-decimal pl-5 mb-4">
+        <ol className="list-decimal pl-8 mb-4 bg-gray-100 mt-4 p-4">
           <li>
             本サービスにかかるコンピュータシステムの保守点検または更新を行う場合
           </li>
@@ -105,7 +105,7 @@ const TermsPage = () => {
         <p>
           ユーザーが以下のいずれかに該当する場合には，事前の通知なく，ユーザーに対して，本サービスの全部もしくは一部の利用を制限し，またはユーザーとしての登録を抹消することができるものとします。
         </p>
-        <ol className="list-decimal pl-5 mb-4">
+        <ol className="list-decimal pl-8 mb-4 bg-gray-100 mt-4 p-4">
           <li>本規約のいずれかの条項に違反した場合</li>
           <li>登録事項に虚偽の事実があることが判明した場合</li>
           <li>料金等の支払債務の不履行があった場合</li>
@@ -146,7 +146,7 @@ const TermsPage = () => {
         <p>
           以下の場合には、ユーザーの個別の同意を要せず、本規約を変更することができるものとします。
         </p>
-        <ol className="list-decimal pl-5 mb-4">
+        <ol className="list-decimal pl-8 mb-4 bg-gray-100 mt-4 p-4">
           <li>本規約の変更がユーザーの一般の利益に適合するとき。</li>
           <li>
             本規約の変更が本サービス利用契約の目的に反せず、かつ、変更の必要性、変更後の内容の相当性その他の変更に係る事情に照らして合理的なものであるとき。
