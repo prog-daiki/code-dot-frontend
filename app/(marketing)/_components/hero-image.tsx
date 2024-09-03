@@ -7,6 +7,7 @@ export const HeroImage = () => {
         alt="hero"
         fill
         src="/engineer.jpeg"
+        priority
         style={{ objectFit: "cover" }}
       />
     </div>
