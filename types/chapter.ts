@@ -5,7 +5,6 @@ export type Chapter = {
   videoUrl?: string;
   position: number;
   publishFlag: boolean;
-  freeFlag: boolean;
   courseId: string;
   createdDate: Date;
   updatedDate: Date;

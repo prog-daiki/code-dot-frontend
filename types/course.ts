@@ -4,9 +4,8 @@ export type Course = {
   description?: string;
   imageUrl?: string;
   price?: number;
-  userId: string;
+  sourceUrl?: string;
   publishFlag?: boolean;
-  deleteFlag?: boolean;
   categoryId?: string;
   createDate: Date;
   updateDate: Date;
