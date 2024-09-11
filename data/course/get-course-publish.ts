@@ -11,6 +11,7 @@ export type PublishCourseWithChapterWithCategoryWithMuxData = {
   course: Course;
   chapters: (Chapter & { muxData: MuxData | null })[];
   category: Category;
+  purchased: boolean;
 };
 
 /**

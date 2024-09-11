@@ -19,6 +19,7 @@ export const CoursesList = ({
             key={item.course.id}
             price={item.course.price!}
             title={item.course.title}
+            purchased={item.purchased}
           />
         ))}
       </div>

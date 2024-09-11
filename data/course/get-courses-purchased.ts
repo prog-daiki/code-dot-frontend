@@ -14,28 +14,16 @@ export type PublishCourseWithChapterWithCategory = {
 };
 
 /**
- * 公開講座の一覧を取得する
- * @param title タイトル
- * @param categoryId カテゴリーID
- * @returns 公開講座の一覧
- * @throws Error 公開講座の一覧取得に失敗した場合
+ * 購入済みの講座の一覧を取得する
+ * @returns 購入済みの講座の一覧
+ * @throws Error 購入済みの講座の一覧取得に失敗した場合
  */
-export async function getCoursesPublish(
-  title?: string,
-  categoryId?: string,
-): Promise<PublishCourseWithChapterWithCategory[]> {
+export async function getCoursesPurchased(): Promise<
+  PublishCourseWithChapterWithCategory[]
+> {
   try {
     const token = await auth().getToken();
-    const params = new URLSearchParams();
-
-    if (title) {
-      params.append("title", title);
-    }
-    if (categoryId) {
-      params.append("categoryId", categoryId);
-    }
-
-    const url = `${API_URL}/courses/publish${params.toString() ? `?${params.toString()}` : ""}`;
+    const url = `${API_URL}/courses/purchased`;
     const { data } = await axios.get<PublishCourseWithChapterWithCategory[]>(
       url,
       {
