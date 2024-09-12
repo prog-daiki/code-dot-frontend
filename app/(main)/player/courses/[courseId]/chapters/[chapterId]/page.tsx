@@ -1,19 +1,25 @@
+import { Chapter } from "@/app/(main)/courses/[courseId]/_components/chapter";
+import { CourseInfo } from "@/app/(main)/courses/[courseId]/_components/course-info";
+import { Button } from "@/components/ui/button";
 import { getCoursePublish } from "@/data/course/get-course-publish";
 import MuxPlayer from "@mux/mux-player-react";
-import { CourseInfo } from "./_components/course-info";
-import { PurchaseButton } from "./_components/purchase-button";
-import { Button } from "@/components/ui/button";
 import { FaGithub } from "react-icons/fa";
-import { Chapter } from "./_components/chapter";
 
-const CoursePage = async ({ params }: { params: { courseId: string } }) => {
+const PlayerPage = async ({
+  params,
+}: {
+  params: { courseId: string; chapterId: string };
+}) => {
   const data = await getCoursePublish(params.courseId);
+  const chapter = data.chapters.find(
+    (chapter) => chapter.id === params.chapterId,
+  );
 
   return (
     <div className="py-2 grid lg:grid-cols-3 gap-6 w-full">
       <div className="lg:col-span-2 space-y-4">
         <div className="relative aspect-video">
-          <MuxPlayer playbackId={data.chapters[0]?.muxData?.playbackId!} />
+          <MuxPlayer playbackId={chapter?.muxData?.playbackId!} />
         </div>
         <CourseInfo
           categoryName={data.category.name}
@@ -27,19 +33,12 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
         />
       </div>
       <div className="lg:col-span-1 space-y-4">
-        {data.purchased ? (
-          <div className="space-y-4">
-            <Button className="bg-sky-700 text-white font-semibold text-md w-full py-8 hover:bg-sky-900">
-              学習を開始する
-            </Button>
-            <Button className="w-full flex items-center gap-x-2 py-8 text-md bg-white border text-black hover:bg-gray-100">
-              <FaGithub />
-              Source Code
-            </Button>
-          </div>
-        ) : (
-          <PurchaseButton courseId={params.courseId} />
-        )}
+        <div className="space-y-4">
+          <Button className="w-full flex items-center gap-x-2 py-8 text-md bg-white border text-black hover:bg-gray-100">
+            <FaGithub />
+            Source Code
+          </Button>
+        </div>
         <div className="shadow-sm">
           <div className="bg-gray-900 text-white p-4 rounded-t-md">
             <h3 className="text-xl font-bold">Chapter</h3>
@@ -62,4 +61,4 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   );
 };
 
-export default CoursePage;
+export default PlayerPage;
